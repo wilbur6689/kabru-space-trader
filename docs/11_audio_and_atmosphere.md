@@ -70,23 +70,27 @@ Master
 ### Ship Sounds
 | Action | Sound | Notes |
 |--------|-------|-------|
-| Engine idle | Low hum | Ambient while docked |
-| Engine thrust | Roar / burn | During travel |
-| Hyperspace jump | Whoosh / warp | Travel transition |
-| Hyperspace arrival | Deceleration boom | Arriving at destination |
+| Engine idle | Low hum | Ambient while in system |
+| Jump drive charge | Building energy whine | Before each jump |
+| Jump initiation | Whoosh / warp boom | Each hop in multi-jump route |
+| Jump arrival | Deceleration boom | Arriving at new system |
 | Weapon fire | Laser / projectile | Combat attacks |
 | Shield hit | Energy crackle | Taking damage |
 | Hull damage | Metal crunch | Critical hits |
 | Explosion | Boom | Ship destruction |
 | Repair | Welding / mechanical | Repair sequence |
-| Refuel | Liquid flow / hiss | Refueling |
+| Search ping | Scanner sweep | When searching a system |
+| Discovery chime | Positive reveal tone | New location discovered |
+| Danger alert | Warning klaxon | Dangerous discovery found |
 
 ### Environment Sounds
 | Context | Sound | Notes |
 |---------|-------|-------|
 | Space ambient | Deep space hum | Subtle, always present |
-| Planet atmosphere | Wind, city, nature | Varies by planet type |
-| Station ambient | Machinery, chatter | Docked at station |
+| Friendly system | Wind, city, nature | Varies by sub-type (mining, industrial, etc.) |
+| Dead system | Silence, creaking debris | Eerie emptiness |
+| Hostile system | Low threat hum, distant alarms | Tension always present |
+| Hub station | Machinery, chatter, bustle | Center of activity |
 | Combat ambient | Alarms, tension | During encounters |
 
 ---
@@ -99,11 +103,20 @@ Master
 - [ ] Planet approach animations
 - [ ] Hyperspace visual effect (tunnel, streaking stars)
 
-### Planet Visuals
-- [ ] Unique planet artwork per type (agricultural = green, mining = rocky, etc.)
-- [ ] Atmospheric glow and lighting effects
+### System Visuals by Type
+- **Friendly systems**: Vibrant, populated, warm lighting — varies by sub-type:
+  - Mining colony: Rocky, industrial machinery, amber tones
+  - Industrial colony: Factories, smoke stacks, metallic
+  - Uninhabited: Lush, green, untouched nature
+  - Primitive race: Exotic architecture, natural materials
+- **Dead systems**: Dark, muted colors, debris fields, eerie glow
+  - Dead worlds: Cracked surfaces, ruined cities
+  - Asteroid fields: Tumbling rocks, dust clouds
+  - Destroyed chunks: Massive fragments, energy residue
+- **Hostile systems**: Red/orange warning tones, fortified structures, patrol ships
+- **Hub systems**: Massive stations, busy traffic, bright lights, civilization
+- [ ] Atmospheric glow and lighting effects per type
 - [ ] Orbital view vs. surface view
-- [ ] Day/night cycle indicators
 
 ### Ship Visuals
 - [ ] Ship sprites per class with engine glow

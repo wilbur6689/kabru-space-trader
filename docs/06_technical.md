@@ -171,6 +171,31 @@ Main (Node)
 
 ## Architecture Patterns
 
+### Master Entity System
+All game objects that exist in the world inherit from a **MasterEntity** base class. This provides a unified interface for stats, fame, location, and interactions.
+
+```
+MasterEntity (fame_level, name, location_address, base_stats...)
+├── PlayerEntity (pilot skills, journal, reputation, backgrounds, pirate fame)
+│   └── Ship class determines stat caps and component tiers
+│       └── Player + Ship treated as one entity (player never leaves ship)
+├── NPCEntity (dialogue, trade inventory, quest flags, faction affiliation)
+├── EnemyEntity (loot table, behavior AI, aggression, fame level)
+│   ├── Pirates (faction: Void Reavers / Silk Hand / Rust Collective / Phantom Circuit)
+│   ├── Bounty Hunters
+│   └── Faction Enforcers
+├── ResourceNode (resource type, depletion rate, yield, discovery state)
+└── EventEntity (trigger conditions, rewards, flags, one-time vs repeatable)
+```
+
+**Key Principles:**
+- `MasterEntity` contains all **shared properties**: fame level, name, location (XX-XXXX address), base stats
+- Subclasses inherit from `MasterEntity` and add **unique properties** specific to their type
+- The **PlayerEntity** and their current ship are one combined entity — ship class determines stat caps
+- **EnemyEntity** has its own fame level, enabling the intimidation mechanic (player fame vs. enemy fame)
+- **ResourceNode** and **EventEntity** are also entities, allowing the discovery system to treat all discoverable things uniformly
+- In Godot: `MasterEntity` extends `Resource`, subclasses extend `MasterEntity`
+
 ### State Machine
 - Game states managed via a state machine pattern
 - Each state is a scene or node handling its own input, update, and render
