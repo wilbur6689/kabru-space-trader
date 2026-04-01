@@ -176,5 +176,37 @@ This document tracks complex design decisions, algorithms, and mechanics that ha
 
 ---
 
+## UI and Presentation
+
+### Cockpit UI Zone Mapping
+- **Source:** 10_ui_and_presentation.md
+- **Problem:** How do interactive UI elements map to specific areas of the cockpit artwork?
+- **Context:** The cockpit is the primary game screen the player always sees. The artwork contains natural anchor points: left monitors (3 screens), console screens (in front of pilot), cockpit window (space view), cargo area (crates), and dashboard area. Game information (marketplace, journal, missions, navigation, ship status, etc.) needs to be assigned to specific cockpit zones. The draft image (draftSpaceship.png) shows a preliminary zone layout.
+- **Reference mapping (not final):**
+  - Left monitors → Main info displays (marketplace, journal, missions, bulletin board, inventory)
+  - Console screens → Ship status, navigation/address input, scanner, system overview
+  - Cockpit window → Current system visual, travel animations, combat view
+  - Cargo area → Visual cargo indicator (crates appear/disappear based on hold contents)
+  - Dashboard → Quick stats (shards, hull/shields, discovery progress, turn counter)
+- **Needs:** Final zone-to-function mapping, clickable/interactive region definitions, how different ship classes affect the cockpit art, overlay vs. in-screen rendering approach.
+
+### Combat Visual Design
+- **Source:** 10_ui_and_presentation.md
+- **Problem:** How does combat look visually within the cockpit view?
+- **Context:** The cockpit stays on screen during combat. An enemy ship overlay appears outside the cockpit windows. Need to design: enemy ship visuals per faction/type, combat action UI overlay, damage effects on cockpit, victory/defeat transitions.
+- **Needs:** Enemy ship art per type, combat UI layout over cockpit, animation for attacks/shields/damage, flee sequence visual.
+
+---
+
+## Economy
+
+### Journal Price History Tracking
+- **Source:** 07_economy_and_trading.md
+- **Problem:** How many data points of price history should be tracked per good per system?
+- **Context:** Currently the journal only tracks last known prices. Full price history would help players identify trends and plan trades. Need to decide on depth of tracking and UI presentation.
+- **Needs:** Number of historical data points, graph/chart display in journal, storage impact on save files.
+
+---
+
 ## Notes
 _Add additional deferred items as they come up during design sessions._
