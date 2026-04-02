@@ -1,0 +1,80 @@
+
+                        GALAXY MAP - SPACE TRADING GAME
+                     Spiral Layout with 4 Pirate Quadrants
+    ============================================================================
+
+                          Q2: SILK HAND (Coreward)
+                       Smugglers, prefer bribery
+                          EASIEST pirate faction
+                                  |
+                                  |
+                  .  R38          |        R42  .
+               Silk Warren        |     Circuit Nexus
+               [Wild-HIGH]       |     [Tech Hub-HIGH]
+                    .             |           .
+                        R18      |     R21
+                   Crimson Drift  |  Phantom Reach
+                   [Outlaw-MED]  |  [Wild-MED]
+                        .        |       .
+                  R15       R13  |  R11       R09
+               Ashfield  Nexus P.|.Darkwell  Brightfall
+              [Wild-LOW] [Sci Hub]|[Wild-LOW] [Tech Hub]
+  Q3: RUST        .       .     |     .       .        Q4: PHANTOM
+  COLLECTIVE --------- R04  R00-+-R02  R07 ----------- CIRCUIT
+  Scavengers      .   Voss  Sol |Merid. Iron       Info brokers
+  MED-HARD       .   Reach Prox.|Gate  Cradle      EASY-MED
+                .  [Wild] [Ship]|[Trade][Mil Hub]     .
+                        .       |     .
+                  R27       R24 |
+              Shattered  Rust B.|
+              [Wild-MED] [Trade]|
+                    .           |           .
+                        R47     |     R55
+                   Scrapyard O. |  Void's Edge
+                   [Wild-HIGH]  |  [Wild-EXTREME]
+                  .             |           .
+                        R63     |
+                    The Terminus |
+                   [Mil Hub-EXT]|
+                                |
+                          Q1: VOID REAVERS (Spinward)
+                       Most aggressive raiders
+                          HARDEST pirate faction
+
+    ============================================================================
+
+    DANGER ZONES (distance from center):
+    [SAFE]    R00-R05  Center - all factions weakest here
+    [LOW]     R06-R15  Inner ring - first encounters possible
+    [MEDIUM]  R16-R30  Mid ring - pirate territories begin
+    [HIGH]    R31-R50  Outer ring - deep pirate territory
+    [EXTREME] R51+     Galaxy edge - faction strongholds
+
+    REGION ADDRESS FORMAT: XX-XXXX
+    First 2 digits = Region code (00-99)
+    Last 4 digits = System address (0000-9999)
+    Example: 38-0322 = Region 38, System 0322
+
+    HUB TYPES:
+    [Ship] Shipyard Hub - All small ship classes (starting point)
+    [Trade] Trade Hub - Best prices, widest goods
+    [Mil Hub] Military Hub - Weapons, bounties, med+ combat ships
+    [Tech Hub] Tech Hub - Best upgrades, jump drives, scanners
+    [Sci Hub] Science Hub - Artifacts, exploration, dead system intel
+    [Outlaw] Outlaw Hub - Black market, smuggling, no patrols
+    [Wild] Wild Space - No hub, unaffiliated + dead systems only
+
+    JUMP DRIVE TIERS:
+    Tier 1: Up to 5 regions   | Tier 4: Up to 40 regions
+    Tier 2: Up to 10 regions  | Tier 5: Unlimited
+    Tier 3: Up to 20 regions  |
+
+    PIRATE FACTION TERRITORIES:
+    Each faction controls a quadrant. Influence is strongest at the
+    edges and weakest near the center (R00). Border regions between
+    quadrants have enemies from BOTH factions (turf wars).
+
+    18 REGIONS TOTAL: 9 Hub Regions + 9 Wild Space Regions
+    Per region: 10,000 possible addresses, 20-50 populated systems
+    Hub regions: 1 hub + 3-5 sub-systems + unaffiliated + dead
+    Wild regions: Unaffiliated + dead systems only

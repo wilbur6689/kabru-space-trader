@@ -8,18 +8,25 @@ This document defines how ships are created, upgraded, and maintained throughout
 ## Ship Classes
 
 ### Class Overview
-There are 6 ship classes. 5 main classes come in **small, medium, and large** variants with increasing stats in their specialty. The Shuttle is a single-size utility class.
+There are 7 ship classes organized into **3 categories** plus a utility class. 6 main classes come in **small, medium, and large** variants. The Shuttle is a single-size utility class.
 
-| Class | Role | Sizes | Key Strength |
-|-------|------|-------|-------------|
-| Shuttle | Starter / loaner / utility | Single | Cheap, basic transport |
-| Freighter | Trading focused | Small, Medium, Large | Cargo capacity |
-| Corvette | Balanced all-rounder | Small, Medium, Large | No major weakness |
-| Hauler | Max cargo hauling | Small, Medium, Large | Massive cargo capacity |
-| Clipper | Exploration focused | Small, Medium, Large | Jump range, scanner |
-| Gunship | Combat focused | Small, Medium, Large | Weapons, hull, shields |
+| Category | Standard Tier | Premium Tier |
+|----------|--------------|-------------|
+| **Cargo** | Freighter | Hauler |
+| **Speed/Agility** | Corvette | Clipper |
+| **Military** | Gunship | Battleship |
 
-**Total: 16 standard ships** (1 Shuttle + 15 variants of 5 classes)
+| Class | Role | Sizes | Key Strength | Tier |
+|-------|------|-------|-------------|------|
+| Shuttle | Starter / loaner / utility | Single | Cheap, basic transport | Utility |
+| Freighter | Trading focused | Small, Medium, Large | Cargo capacity | Standard |
+| Corvette | Speed and agility | Small, Medium, Large | Maneuverability, balanced | Standard |
+| Gunship | Mid-tier combat | Small, Medium, Large | Weapons, shields | Standard |
+| Hauler | Max cargo hauling | Small, Medium, Large | Massive cargo capacity | Premium |
+| Clipper | Exploration focused | Small, Medium, Large | Jump range, scanner, speed | Premium |
+| Battleship | Heavy combat | Small, Medium, Large | Max weapons, hull, shields | Premium |
+
+**Total: 19 standard ships** (1 Shuttle + 18 variants of 6 classes)
 
 ### Size Overlap
 Sizes overlap between classes — a small Hauler is only slightly better at cargo than a large Freighter. This creates meaningful purchase decisions where the player weighs specialization vs. versatility.
@@ -98,13 +105,28 @@ Sizes overlap between classes — a small Hauler is only slightly better at carg
 | Engine | 3 | 3 | 4 |
 | Nav Computer | 1 | 2 | 2 |
 
+#### Battleship (Heavy Combat — Premium)
+| Component | Small | Medium | Large |
+|-----------|-------|--------|-------|
+| Jump Drive | 2 | 3 | 3 |
+| Hull Plating | 4 | 5 | 5 |
+| Shields | 4 | 5 | 5 |
+| Cargo Bay | 1 | 2 | 2 |
+| Scanner | 2 | 2 | 3 |
+| Weapons | 4 | 5 | 5 |
+| Engine | 2 | 3 | 3 |
+| Nav Computer | 2 | 2 | 3 |
+
 ### Black Market Ships
 - Available only at **Outlaw Hubs**
-- Special variant of each of the 5 main classes (not Shuttle)
+- Special variant of each of the 6 main classes (not Shuttle)
 - **Unique names** (naming convention TBD)
 - **Visually identical** to standard ships (for now — see deferred design doc)
 - **Very expensive** but have superior stats in specific areas
-- 5 total black market ships (one per main class)
+- Standard tier BM ships (Freighter, Corvette, Gunship): 120,000-150,000 shards
+- Premium tier BM ships (Hauler, Clipper): 200,000-400,000 shards
+- **BM Battleship**: 1,000,000 shards — the ultimate ship in the game
+- 6 total black market ships (one per main class)
 
 ---
 
@@ -112,12 +134,12 @@ Sizes overlap between classes — a small Hauler is only slightly better at carg
 
 | Location | Available Ships |
 |----------|----------------|
-| **Shipyard Hub** | All 5 main classes — **small size only** |
-| **Military Hub** | Gunships and Corvettes — medium + large |
+| **Shipyard Hub** | All 6 main classes — **small size only** |
+| **Military Hub** | Gunships, Battleships, and Corvettes — medium + large |
 | **Trade Hub** | Freighters and Haulers — medium + large |
 | **Tech Hub** | Clippers and Corvettes — medium + large |
 | **Science Hub** | Clippers — medium + large |
-| **Outlaw Hub** | Black market variants of all 5 main classes |
+| **Outlaw Hub** | Black market variants of all 6 main classes |
 | **Sub-systems** | No ships — parts and upgrades only |
 
 ---

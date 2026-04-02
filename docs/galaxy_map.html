@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Galaxy Map - Space Trading Game</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a1a;
+    color: #ccc;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+  }
+  canvas { display: block; }
+  #tooltip {
+    position: absolute;
+    display: none;
+    background: rgba(10, 10, 30, 0.95);
+    border: 1px solid #446;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    pointer-events: none;
+    max-width: 280px;
+    border-radius: 4px;
+  }
+  #legend {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(10, 10, 30, 0.9);
+    border: 1px solid #334;
+    padding: 12px 16px;
+    font-size: 12px;
+    line-height: 1.8;
+    border-radius: 4px;
+  }
+  #legend h3 { color: #8af; margin-bottom: 6px; font-size: 14px; }
+  .leg-row { display: flex; align-items: center; gap: 8px; }
+  .leg-dot {
+    width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0;
+  }
+  #title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: #8af;
+    text-shadow: 0 0 10px rgba(100,150,255,0.5);
+  }
+  #subtitle {
+    position: absolute;
+    top: 36px;
+    left: 10px;
+    font-size: 12px;
+    color: #668;
+  }
+</style>
+</head>
+<body>
+<div id="title">GALAXY MAP</div>
+<div id="subtitle">Spiral layout - 18 regions - 4 pirate quadrants - Hover for details</div>
+<div id="tooltip"></div>
+<div id="legend">
+  <h3>Legend</h3>
+  <div class="leg-row"><span class="leg-dot" style="background:#4af"></span> Hub System (Trade/Military/Tech/etc.)</div>
+  <div class="leg-row"><span class="leg-dot" style="background:#555"></span> Wild Space (no hub)</div>
+  <div class="leg-row"><span class="leg-dot" style="background:#f44"></span> Outlaw Hub</div>
+  <div class="leg-row"><span class="leg-dot" style="background:#ff0"></span> Starting Region (00)</div>
+  <br>
+  <h3>Pirate Quadrants</h3>
+  <div class="leg-row"><span class="leg-dot" style="background:#f55"></span> Q1 Spinward - Void Reavers (Hardest)</div>
+  <div class="leg-row"><span class="leg-dot" style="background:#c6f"></span> Q2 Coreward - Silk Hand (Easiest)</div>
+  <div class="leg-row"><span class="leg-dot" style="background:#f80"></span> Q3 Rimward - Rust Collective (Med-Hard)</div>
+  <div class="leg-row"><span class="leg-dot" style="background:#0cf"></span> Q4 Trailing - Phantom Circuit (Easy-Med)</div>
+  <br>
+  <h3>Danger</h3>
+  <div class="leg-row" style="color:#6f6">Center (00-05): Safe zone</div>
+  <div class="leg-row" style="color:#ff0">Near (06-15): Low danger</div>
+  <div class="leg-row" style="color:#f80">Mid (16-30): Medium danger</div>
+  <div class="leg-row" style="color:#f44">Outer (31+): High danger</div>
+</div>
+<canvas id="c"></canvas>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', () => { resize(); draw(); });
+
+// Galaxy center
+const cx = () => canvas.width * 0.45;
+const cy = () => canvas.height * 0.5;
+
+// Region data: region number, angle offset on spiral, hub type, name
+const regions = [
+  // Center - safe zone
+  { id: '00', name: 'Sol Proxima', hub: 'Shipyard Hub', type: 'hub', danger: 'safe',
+    desc: 'Starting region. Shipyard hub with all small ship classes. Tutorial begins here.' },
+  { id: '02', name: 'Meridian Gate', hub: 'Trade Hub', type: 'hub', danger: 'safe',
+    desc: 'Primary trade hub. Best marketplace prices, widest goods selection.' },
+  { id: '04', name: 'Voss Reach', hub: null, type: 'wild', danger: 'safe',
+    desc: 'Wild space near the core. Unaffiliated and dead systems. Low danger.' },
+
+  // Inner ring - low danger
+  { id: '07', name: 'Iron Cradle', hub: 'Military Hub', type: 'hub', danger: 'low',
+    desc: 'Military hub. Weapons dealer, bounty board, combat missions. Medium+ ships.' },
+  { id: '09', name: 'Brightfall', hub: 'Tech Hub', type: 'hub', danger: 'low',
+    desc: 'Tech hub. Best upgrades, jump drive specialists, scanner equipment.' },
+  { id: '11', name: 'Darkwell', hub: null, type: 'wild', danger: 'low',
+    desc: 'Wild space. Scattered unaffiliated systems with temporary trade opportunities.' },
+  { id: '13', name: 'Nexus Prime', hub: 'Science Hub', type: 'hub', danger: 'low',
+    desc: 'Science hub. Artifact appraisal, exploration missions, dead system intel.' },
+  { id: '15', name: 'Ashfield', hub: null, type: 'wild', danger: 'low',
+    desc: 'Wild space at the border of safe territory. First pirate encounters possible.' },
+
+  // Mid ring - medium danger, pirate faction territories begin
+  { id: '18', name: 'Crimson Drift', hub: 'Outlaw Hub', type: 'outlaw', danger: 'medium',
+    desc: 'Outlaw hub in Silk Hand territory. Open black market, smuggling missions.' },
+  { id: '21', name: 'Phantom Reach', hub: null, type: 'wild', danger: 'medium',
+    desc: 'Wild space in Phantom Circuit territory. Intel traders, hidden addresses.' },
+  { id: '24', name: 'Rust Basin', hub: 'Trade Hub', type: 'hub', danger: 'medium',
+    desc: 'Trade hub near Rust Collective border. Salvage trade opportunities.' },
+  { id: '27', name: 'Shattered Veil', hub: null, type: 'wild', danger: 'medium',
+    desc: 'Wild space. Dense dead systems, pirate turf war border zone.' },
+
+  // Outer ring - high danger, deep pirate territory
+  { id: '33', name: 'Reaver\'s Maw', hub: 'Outlaw Hub', type: 'outlaw', danger: 'high',
+    desc: 'Outlaw hub deep in Void Reaver territory. Dangerous but lucrative.' },
+  { id: '38', name: 'Silk Warren', hub: null, type: 'wild', danger: 'high',
+    desc: 'Wild space. Silk Hand smuggling routes, hidden contraband caches.' },
+  { id: '42', name: 'Circuit Nexus', hub: 'Tech Hub', type: 'hub', danger: 'high',
+    desc: 'Remote tech hub in Phantom Circuit space. Rare blueprints available.' },
+  { id: '47', name: 'Scrapyard Omega', hub: null, type: 'wild', danger: 'high',
+    desc: 'Wild space. Rust Collective stronghold zone. Hostile systems everywhere.' },
+  { id: '55', name: 'Void\'s Edge', hub: null, type: 'wild', danger: 'extreme',
+    desc: 'Galaxy rim. Void Reaver stronghold. Strongest enemies, best loot.' },
+  { id: '63', name: 'The Terminus', hub: 'Military Hub', type: 'hub', danger: 'extreme',
+    desc: 'Remote military outpost at the galaxy edge. Last bastion of order.' },
+];
+
+// Quadrant colors and angles
+const quadrants = [
+  { name: 'Q1: Void Reavers (Spinward)', color: '#f55', angleStart: 0, angleEnd: Math.PI/2,
+    style: 'Aggressive raiders, high damage, rarely flee', difficulty: 'HARDEST' },
+  { name: 'Q2: Silk Hand (Coreward)', color: '#c6f', angleStart: Math.PI/2, angleEnd: Math.PI,
+    style: 'Smugglers, prefer bribery over violence', difficulty: 'EASIEST' },
+  { name: 'Q3: Rust Collective (Rimward)', color: '#f80', angleStart: Math.PI, angleEnd: 3*Math.PI/2,
+    style: 'Tanky scavengers, want your cargo, won\'t flee', difficulty: 'MED-HARD' },
+  { name: 'Q4: Phantom Circuit (Trailing)', color: '#0cf', angleStart: 3*Math.PI/2, angleEnd: 2*Math.PI,
+    style: 'Info brokers, trade intel, least violent', difficulty: 'EASY-MED' },
+];
+
+// Position regions on a spiral
+function getRegionPos(region, i) {
+  const num = parseInt(region.id);
+  // Spiral: angle increases with index, radius increases with region number
+  const baseAngle = (i / regions.length) * Math.PI * 3.2 + Math.PI * 0.3; // ~1.5 turns
+  const baseRadius = 30 + (num / 65) * Math.min(canvas.width, canvas.height) * 0.38;
+  return {
+    x: cx() + Math.cos(baseAngle) * baseRadius,
+    y: cy() + Math.sin(baseAngle) * baseRadius,
+    angle: baseAngle,
+    radius: baseRadius
+  };
+}
+
+// Determine which quadrant a position is in
+function getQuadrant(x, y) {
+  const angle = (Math.atan2(y - cy(), x - cx()) + 2 * Math.PI) % (2 * Math.PI);
+  return quadrants.find(q => angle >= q.angleStart && angle < q.angleEnd) || quadrants[0];
+}
+
+// Star field
+let stars = [];
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 400; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.2 + 0.3,
+      a: Math.random() * 0.6 + 0.2
+    });
+  }
+}
+initStars();
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Stars
+  stars.forEach(s => {
+    ctx.fillStyle = `rgba(200,220,255,${s.a})`;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Draw quadrant divisions (faint lines from center)
+  quadrants.forEach(q => {
+    // Quadrant boundary line
+    ctx.strokeStyle = 'rgba(100,100,150,0.15)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx(), cy());
+    const len = Math.max(canvas.width, canvas.height);
+    ctx.lineTo(cx() + Math.cos(q.angleStart) * len, cy() + Math.sin(q.angleStart) * len);
+    ctx.stroke();
+
+    // Quadrant label
+    const midAngle = (q.angleStart + q.angleEnd) / 2;
+    const labelR = Math.min(canvas.width, canvas.height) * 0.42;
+    const lx = cx() + Math.cos(midAngle) * labelR;
+    const ly = cy() + Math.sin(midAngle) * labelR;
+    ctx.fillStyle = q.color;
+    ctx.globalAlpha = 0.4;
+    ctx.font = 'bold 13px Courier New';
+    ctx.textAlign = 'center';
+    ctx.fillText(q.name, lx, ly);
+    ctx.font = '11px Courier New';
+    ctx.fillText(q.difficulty, lx, ly + 16);
+    ctx.globalAlpha = 1;
+  });
+
+  // Draw danger rings
+  const dangerRings = [
+    { r: 0.08, color: '#6f6', label: 'Safe Zone (00-05)' },
+    { r: 0.18, color: '#ff0', label: 'Low Danger (06-15)' },
+    { r: 0.30, color: '#f80', label: 'Medium Danger (16-30)' },
+    { r: 0.42, color: '#f44', label: 'High Danger (31+)' },
+  ];
+  const baseR = Math.min(canvas.width, canvas.height);
+  dangerRings.forEach(ring => {
+    ctx.strokeStyle = ring.color;
+    ctx.globalAlpha = 0.12;
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 8]);
+    ctx.beginPath();
+    ctx.arc(cx(), cy(), ring.r * baseR, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.globalAlpha = 1;
+  });
+
+  // Draw spiral arm hints
+  ctx.strokeStyle = 'rgba(80,100,180,0.08)';
+  ctx.lineWidth = 40;
+  for (let arm = 0; arm < 2; arm++) {
+    ctx.beginPath();
+    for (let t = 0; t < 200; t++) {
+      const angle = (t / 200) * Math.PI * 3 + arm * Math.PI;
+      const r = 20 + (t / 200) * baseR * 0.4;
+      const x = cx() + Math.cos(angle) * r;
+      const y = cy() + Math.sin(angle) * r;
+      if (t === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+
+  // Draw connections between nearby regions (spiral path)
+  ctx.strokeStyle = 'rgba(100,140,200,0.15)';
+  ctx.lineWidth = 1;
+  for (let i = 1; i < regions.length; i++) {
+    const p1 = getRegionPos(regions[i-1], i-1);
+    const p2 = getRegionPos(regions[i], i);
+    ctx.beginPath();
+    ctx.moveTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
+    ctx.stroke();
+  }
+
+  // Draw regions
+  regions.forEach((region, i) => {
+    const pos = getRegionPos(region, i);
+    const num = parseInt(region.id);
+
+    // Region dot
+    let color, size;
+    if (region.id === '00') {
+      color = '#ff0'; size = 10;
+    } else if (region.type === 'outlaw') {
+      color = '#f44'; size = 8;
+    } else if (region.type === 'hub') {
+      color = '#4af'; size = 8;
+    } else {
+      color = '#556'; size = 6;
+    }
+
+    // Glow
+    const gradient = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, size * 3);
+    gradient.addColorStop(0, color);
+    gradient.addColorStop(1, 'transparent');
+    ctx.fillStyle = gradient;
+    ctx.globalAlpha = 0.3;
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, size * 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    // Dot
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, size, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Border
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, size, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Label
+    ctx.fillStyle = '#aab';
+    ctx.font = 'bold 11px Courier New';
+    ctx.textAlign = 'center';
+    ctx.fillText(`R${region.id}`, pos.x, pos.y - size - 8);
+    ctx.font = '10px Courier New';
+    ctx.fillStyle = '#778';
+    ctx.fillText(region.name, pos.x, pos.y - size - 20);
+
+    // Hub type label
+    if (region.hub) {
+      ctx.font = '9px Courier New';
+      ctx.fillStyle = region.type === 'outlaw' ? '#f66' : '#5af';
+      ctx.fillText(region.hub, pos.x, pos.y + size + 14);
+    } else {
+      ctx.font = '9px Courier New';
+      ctx.fillStyle = '#445';
+      ctx.fillText('Wild Space', pos.x, pos.y + size + 14);
+    }
+
+    // Sub-system indicators (small dots around hub)
+    if (region.type === 'hub' || region.type === 'outlaw') {
+      const subCount = region.id === '00' ? 5 : (region.type === 'outlaw' ? 3 : 4);
+      for (let s = 0; s < subCount; s++) {
+        const subAngle = (s / subCount) * Math.PI * 2 + pos.angle;
+        const subR = size + 18;
+        const sx = pos.x + Math.cos(subAngle) * subR;
+        const sy = pos.y + Math.sin(subAngle) * subR;
+        ctx.fillStyle = 'rgba(100,150,200,0.4)';
+        ctx.beginPath();
+        ctx.arc(sx, sy, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Store position for hover detection
+    region._pos = pos;
+    region._size = size;
+  });
+
+  // Center marker
+  ctx.fillStyle = 'rgba(255,255,100,0.1)';
+  ctx.beginPath();
+  ctx.arc(cx(), cy(), 15, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,100,0.3)';
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  ctx.arc(cx(), cy(), 15, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#ff8';
+  ctx.font = '9px Courier New';
+  ctx.textAlign = 'center';
+  ctx.fillText('ORIGIN', cx(), cy() + 4);
+}
+
+// Hover detection
+canvas.addEventListener('mousemove', (e) => {
+  let found = null;
+  regions.forEach(region => {
+    if (!region._pos) return;
+    const dx = e.clientX - region._pos.x;
+    const dy = e.clientY - region._pos.y;
+    if (Math.sqrt(dx*dx + dy*dy) < region._size + 15) {
+      found = region;
+    }
+  });
+
+  if (found) {
+    const q = getQuadrant(found._pos.x, found._pos.y);
+    const num = parseInt(found.id);
+    const subCount = found.type === 'hub' ? '3-5' : '0';
+    const popSystems = found.type === 'wild' ? '20-50 unaffiliated' : '20-50 (hub + subs + unaffiliated)';
+
+    tooltip.style.display = 'block';
+    tooltip.style.left = (e.clientX + 15) + 'px';
+    tooltip.style.top = (e.clientY + 15) + 'px';
+    tooltip.innerHTML = `
+      <div style="color:#8af;font-weight:bold;font-size:14px">Region ${found.id} - ${found.name}</div>
+      <div style="color:#668;margin-bottom:4px">Address range: ${found.id}-0000 to ${found.id}-9999</div>
+      <div style="color:#aaa">${found.desc}</div>
+      <hr style="border-color:#334;margin:6px 0">
+      <div><span style="color:#888">Type:</span> <span style="color:${found.type === 'outlaw' ? '#f66' : found.type === 'hub' ? '#5af' : '#888'}">${found.hub || 'Wild Space'}</span></div>
+      <div><span style="color:#888">Danger:</span> <span style="color:${
+        found.danger === 'safe' ? '#6f6' : found.danger === 'low' ? '#ff0' : found.danger === 'medium' ? '#f80' : '#f44'
+      }">${found.danger.toUpperCase()}</span></div>
+      <div><span style="color:#888">Quadrant:</span> <span style="color:${q.color}">${q.name}</span></div>
+      <div><span style="color:#888">Systems:</span> ${popSystems}</div>
+      ${found.type === 'hub' ? `<div><span style="color:#888">Sub-systems:</span> ${subCount} tied to hub</div>` : ''}
+      <div><span style="color:#888">Jump Drive Tier needed:</span> ${num <= 5 ? '1 (5 regions)' : num <= 15 ? '2 (10 regions)' : num <= 30 ? '3 (20 regions)' : num <= 50 ? '4 (40 regions)' : '5 (unlimited)'}</div>
+    `;
+  } else {
+    tooltip.style.display = 'none';
+  }
+});
+
+draw();
+window.addEventListener('resize', () => { initStars(); draw(); });
+</script>
+</body>
+</html>
