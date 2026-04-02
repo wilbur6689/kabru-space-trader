@@ -1,57 +1,71 @@
 # Audio and Atmosphere
 
 ## Overview
-This document covers audio design, visual atmosphere, and immersion elements powered by Godot's audio and rendering systems.
+This document covers audio design, visual atmosphere, writing tone, and immersion elements powered by Godot's audio and rendering systems. Audio follows a **dual-style approach**: dark ambient for exploration and non-active scenes, synthwave for action and risky moments.
 
 ---
 
 ## Audio Architecture
 
 ### Godot Audio System
-- Audio buses for separate volume control (Master, Music, SFX, Ambient, UI)
+- Audio buses for separate volume control
 - `AudioStreamPlayer` for non-positional audio (music, UI sounds)
-- `AudioStreamPlayer2D` for positional audio (if using spatial scenes)
 - `AudioManager` autoload singleton for global playback control
+- **Cinematic audio perspective** — full rich sound regardless of source (big explosions, dramatic weapon fire, clear alerts)
 
 ### Audio Bus Layout
 ```
 Master
-├── Music        # Background music tracks
-├── SFX          # Sound effects (combat, trade, events)
-├── Ambient      # Background ambience loops
-└── UI           # Menu clicks, notifications
+├── Music        # Background music tracks (dark ambient + synthwave)
+├── SFX          # Sound effects (combat, trade, events, ship)
+├── Ambient      # Background ambience loops (space, system type)
+└── UI           # Menu clicks, notifications, inbox
 ```
+
+### Volume Controls
+- **Simple for now**: Master volume slider + Music volume slider
+- Per-bus sliders (SFX, Ambient, UI) deferred to post-MVP
 
 ---
 
 ## Music
 
-### Soundtrack Style
-- [ ] Genre (synthwave, orchestral, ambient electronic, lo-fi space)
-- [ ] Tone (epic, chill, tense, mysterious)
-- [ ] Dynamic music (layers that change based on game state)
-
-### Music Tracks Needed
-| Context | Mood | Notes |
-|---------|------|-------|
-| Main Menu | Grand, inviting | Title theme |
-| Friendly System | Calm, warm | Safe harbor feel |
-| Dead System | Eerie, haunting | Desolate and mysterious |
-| Hostile System | Gritty, tense | Danger imminent |
-| Hub System | Bustling, lively | Center of civilization |
-| Traveling (Known Route) | Adventurous, relaxed | Safe journey |
-| Traveling (Unknown Space) | Mysterious, tense | Anything could happen |
-| Search / Discovery | Curious, building | Anticipation of the unknown |
-| Combat | Intense, urgent | Drives adrenaline |
-| Marketplace | Bustling, lively | Trading energy |
-| Story / Dialogue | Atmospheric, subtle | Doesn't overpower text |
-| Victory / System Cleared | Triumphant | Major achievement feel |
-| Death / Recovery | Somber, then hopeful | Loss but not the end |
+### Dual-Style Soundtrack
+- **Dark ambient**: Used for exploration, docked scenes, traveling, trading, dialogue — atmospheric, immersive, keeps the mood grounded
+- **Synthwave (retro-futuristic)**: Used for combat, risky encounters, boss fights, black market deals — high energy, adrenaline, signals danger/action
 
 ### Music Transitions
-- [ ] Crossfade between tracks on scene change
-- [ ] Layered music that adds/removes instruments based on tension
-- [ ] Stinger sounds for key moments (discovery, danger alert)
+- **Context-dependent transitions**:
+  - **Crossfade** (2-3 seconds) for calm transitions: arriving at a system, opening marketplace, returning from menus
+  - **Sharp cut** for urgent moments: combat triggered, dangerous discovery, boss warning, intimidation failure
+- The shift from ambient to synthwave is itself a signal to the player that something is happening
+
+### Music Track List
+
+#### Dark Ambient Tracks
+| Context | Mood | Transition In |
+|---------|------|--------------|
+| Main Menu | Atmospheric, grand | N/A — plays on launch |
+| Friendly System | Calm, safe, warm | Crossfade on arrival |
+| Dead System | Eerie, haunting, hollow | Crossfade on arrival |
+| Hostile System | Brooding, threatening, tense | Crossfade on arrival |
+| Hub System | Warmer ambient, busier undertones | Crossfade on arrival |
+| Traveling (Known Route) | Relaxed, steady | Crossfade on departure |
+| Traveling (Unknown Space) | Building tension, mysterious | Crossfade on departure |
+| Search / Discovery | Curious, anticipation building | Crossfade when searching |
+| Marketplace | Warm, trading atmosphere | Crossfade when opening market |
+| Story / Dialogue | Subtle, doesn't overpower text | Crossfade on dialogue start |
+| Death / Recovery | Somber, then slowly hopeful | Crossfade from combat |
+
+#### Synthwave Tracks
+| Context | Mood | Transition In |
+|---------|------|--------------|
+| Combat | Intense, urgent, adrenaline | **Sharp cut** on encounter |
+| Black Market Deal | Slower synthwave, shady tension | **Sharp cut** on deal initiation |
+| Boss Warning / Boss Fight | Heaviest track, maximum intensity | **Sharp cut** on boss arrival |
+| Victory / System Cleared | Triumphant, achievement rush | Crossfade from combat |
+
+**Note:** Detailed music composition and track specifics deferred for later revisit. See deferred design doc.
 
 ---
 
@@ -63,9 +77,13 @@ Master
 | Button click | Soft click/beep | Consistent across all menus |
 | Button hover | Subtle tone | Light feedback |
 | Purchase/sell | Cash register / coin | Satisfying trade feedback |
-| Menu open/close | Whoosh / slide | Panel transitions |
+| Menu open/close | Whoosh / slide | Panel transitions on cockpit monitors |
 | Notification | Chime / ping | Alerts and messages |
 | Error / invalid | Buzz / negative tone | Denied actions |
+| Haggle success | Positive chime / deal struck | Bartering win |
+| Haggle failure | Negative buzz / price hike | Bartering loss |
+| Message received | Inbox ping | New message in inbox |
+| Confirmation dialog | Soft alert tone | "Are you sure?" prompts |
 
 ### Ship Sounds
 | Action | Sound | Notes |
@@ -75,38 +93,59 @@ Master
 | Jump initiation | Whoosh / warp boom | Each hop in multi-jump route |
 | Jump arrival | Deceleration boom | Arriving at new system |
 | Weapon fire | Laser / projectile | Combat attacks |
-| Shield hit | Energy crackle | Taking damage |
-| Hull damage | Metal crunch | Critical hits |
+| Shield hit | Energy crackle | Taking damage (shields absorb) |
+| Hull damage | Metal crunch | Direct hull hits |
 | Explosion | Boom | Ship destruction |
 | Repair | Welding / mechanical | Repair sequence |
 | Search ping | Scanner sweep | When searching a system |
 | Discovery chime | Positive reveal tone | New location discovered |
 | Danger alert | Warning klaxon | Dangerous discovery found |
+| Station deployed | Heavy mechanical clunk | Personal station placed |
+| Ship transfer complete | Docking confirmation tone | Stored ship arrived at destination |
+
+### Combat Sounds
+| Action | Sound | Notes |
+|--------|-------|-------|
+| Intimidation success | Enemy comms cutting out | They're fleeing |
+| Intimidation failure | Angry comms burst | They're attacking harder |
+| Flee attempt | Engine surge | Boosting away |
+| Negotiate offer | Comms open tone | Attempting to talk |
+| Enemy defeated | Explosion + victory sting | Combat win |
+| Player defeated | Hull breach + alarm | Leads to death screen |
+
+### Event Sounds
+| Action | Sound | Notes |
+|--------|-------|-------|
+| Black market delivery | Mysterious package thud | Delivery notification |
+| Boss warning | Deep alarm / threatening transmission | 2-3 turns until attack |
+| Undercover bust | Sirens / authority alert | Black market deal gone wrong |
+| Bribe attempt | Tense silence / coin slide | Offering shards |
+| System cleared | Triumphant horn + ambient shift | Hostile → friendly conversion |
 
 ### Environment Sounds
 | Context | Sound | Notes |
 |---------|-------|-------|
-| Space ambient | Deep space hum | Subtle, always present |
+| Space ambient | Deep space hum | Subtle, always present in cockpit |
 | Friendly system | Wind, city, nature | Varies by sub-type (mining, industrial, etc.) |
 | Dead system | Silence, creaking debris | Eerie emptiness |
 | Hostile system | Low threat hum, distant alarms | Tension always present |
 | Hub station | Machinery, chatter, bustle | Center of activity |
 | Combat ambient | Alarms, tension | During encounters |
 
+**Note:** Full SFX list and audio asset details deferred for later revisit. See deferred design doc.
+
 ---
 
 ## Visual Atmosphere
 
-### Space Visuals
-- [ ] Parallax scrolling star field (multiple layers)
-- [ ] Nebulae and cosmic dust (shader-based or sprite)
-- [ ] Planet approach animations
-- [ ] Hyperspace visual effect (tunnel, streaking stars)
+### Cockpit Window Visuals
+All visuals are displayed through the cockpit windows — the cockpit interior is always present.
 
-### System Visuals by Type
+#### System Visuals by Type
 - **Friendly systems**: Vibrant, populated, warm lighting — varies by sub-type:
   - Mining colony: Rocky, industrial machinery, amber tones
   - Industrial colony: Factories, smoke stacks, metallic
+  - Agricultural: Green fields, biodomes, natural light
   - Uninhabited: Lush, green, untouched nature
   - Primitive race: Exotic architecture, natural materials
 - **Dead systems**: Dark, muted colors, debris fields, eerie glow
@@ -115,60 +154,87 @@ Master
   - Destroyed chunks: Massive fragments, energy residue
 - **Hostile systems**: Red/orange warning tones, fortified structures, patrol ships
 - **Hub systems**: Massive stations, busy traffic, bright lights, civilization
-- [ ] Atmospheric glow and lighting effects per type
-- [ ] Orbital view vs. surface view
+- **Empty space**: Distant stars, void, cosmic dust
 
-### Ship Visuals
-- [ ] Ship sprites per class with engine glow
-- [ ] Damage states (visual hull damage progression)
-- [ ] Upgrade visuals (visible component changes)
-- [ ] Particle effects (engine thrust, weapon fire)
+#### Travel Visuals
+- Hyperspace tunnel overlay on cockpit windows during jumps
+- Stars streaking by through the glass
+- Brief flash/pause between multi-hop jumps
 
-### Title Screen
-- [ ] Animated title with space backdrop
-- [ ] Parallax star field
-- [ ] Ship flyby or planet rotation
-- [ ] Atmospheric menu with music
+#### Title Screen
+- Animated space backdrop with parallax star field
+- Ship cockpit or exterior artwork
+- Atmospheric with main menu dark ambient music
+
+---
+
+## Visual Feedback Effects
+
+### All Included from Launch
+
+| Effect | Trigger | Implementation |
+|--------|---------|---------------|
+| **Screen shake** | Hull damage taken in combat | Camera/viewport shake, intensity scales with damage |
+| **Cockpit sparks/flicker** | Critical hull damage | Overlay particle effect + brief screen flicker |
+| **Vignette darkening** | Hull below 25% | Screen edges darken progressively as hull drops |
+| **Shard number popups** | Shard gains/losses | "+500 shards" / "-200 shards" floats up, color-coded green/red |
+| **Damage number popups** | Combat hits | Damage dealt/received floats near ship status |
 
 ---
 
 ## Writing and Tone
 
-### Location Descriptions
-- First arrival: Full atmospheric description in `RichTextLabel` with styled text
-- Return visits: Brief status update
-- [ ] Seasonal/time-based description variants
+### Overall Style
+- **Atmospheric but brief** for general gameplay — a sentence or two of flavor, then straight to business
+- **Detailed and immersive** for main story content — full narrative passages
+- Gritty, industrial tone matching the visual aesthetic
+
+### Arrival Text Variants
+
+#### First Visit (Never Been Here)
+Atmospheric description, 2-3 sentences setting the scene:
+> You drop out of hyperspace above a scorched rock orbiting a dying star. The surface is pocked with strip mines, their amber lights cutting through clouds of dust. A comms beacon crackles: *"Voss Prime Mining Colony. Dock at platform 7."*
+
+#### Return Visit (Previously Visited)
+Quick status line:
+> Returning to Voss Prime. Mining colony. 3/4 locations discovered.
+
+#### Known But Unvisited (Address Known, Never Visited)
+Brief intel-based text:
+> Scans indicate a mining settlement at this location. Mineral signatures detected. Approach with caution — limited intel available.
 
 ### Event Narration
-- [ ] Combat narration style (dramatic, tactical, humorous)
-- [ ] Trade narration (brief, factual)
-- [ ] Story narration (detailed, immersive)
-- [ ] Typewriter text reveal effect for key moments
+- **Combat**: Terse, tactical — "Void Reaver interceptor closing fast. Weapons hot."
+- **Discovery**: Brief wonder or tension — "Scanner resolves a faint signal... an abandoned trading post, half-buried in asteroid debris."
+- **Trading**: Factual, quick — "Transaction complete. 45 units of refined metals sold."
+- **Black market**: Shady atmosphere — "A crate slides out of the shadows. This is it — your delivery."
 
-### Example Tone
-> You drop out of hyperspace above Kepler-7. The planet's amber atmosphere swirls beneath you, dotted with the glowing lights of mega-cities. Your comm crackles: *"Trader vessel, you are cleared for landing at Port Meridian. Docking fee: 50 credits."*
-
----
-
-## Screen Shake and Juice
-
-### Feedback Effects
-- [ ] Camera shake on damage taken
-- [ ] Screen flash on critical hits
-- [ ] Chromatic aberration on low hull
-- [ ] Vignette darkening when near death
-- [ ] Number popups for damage / credits gained
-- [ ] Particle bursts on explosions and discoveries
+### NPC Dialogue Style
+- Conversational, varied by NPC type
+- Hub NPCs: Professional, informative
+- Sub-system NPCs: Rougher, more casual
+- Pirate contacts: Guarded, cryptic
+- Example: *"Oh yeah, I was just at system 11-321 and here are the prices I saw last time I was there."*
 
 ---
 
-## Accessibility for Audio
-- [ ] Subtitles for any voiced content
-- [ ] Visual indicators alongside audio cues
-- [ ] Independent volume sliders per audio bus
+## Accessibility for Audio (Post-MVP)
+
+Deferred to after MVP:
+- [ ] Visual indicators alongside all audio cues
+- [ ] Independent volume sliders per audio bus (currently only Master + Music)
 - [ ] Mute toggle per category
+- [ ] Subtitles for any future voiced content
 
 ---
 
 ## Notes
 _Add design notes, open questions, and decisions here._
+
+### Open Design Questions
+- Specific music track composition and sourcing (royalty-free, commissioned, generated)
+- Full SFX asset list and sourcing
+- Environment sound variations per friendly sub-type
+- How many unique arrival descriptions are needed per system sub-type
+- Dynamic music layering complexity (simple crossfade vs. stem-based mixing)
+- Audio file formats and compression for Godot (OGG vs WAV)

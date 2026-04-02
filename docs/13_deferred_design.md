@@ -190,6 +190,18 @@ This document tracks complex design decisions, algorithms, and mechanics that ha
   - Dashboard → Quick stats (shards, hull/shields, discovery progress, turn counter)
 - **Needs:** Final zone-to-function mapping, clickable/interactive region definitions, how different ship classes affect the cockpit art, overlay vs. in-screen rendering approach.
 
+### Music Composition and Track Details
+- **Source:** 11_audio_and_atmosphere.md
+- **Problem:** Detailed music track specifications, sourcing, and implementation.
+- **Context:** Dual-style soundtrack established — dark ambient for non-active scenes, synthwave for action/risky scenes. 15 contexts identified with mood and transition types defined. Context-dependent transitions (crossfade for calm, sharp cut for urgent).
+- **Needs:** Specific track compositions or sourcing (royalty-free, commissioned, AI-generated), dynamic layering complexity, stem-based mixing vs simple crossfade, audio format decisions (OGG vs WAV).
+
+### Full SFX Asset List and Sourcing
+- **Source:** 11_audio_and_atmosphere.md
+- **Problem:** Detailed sound effect specifications and asset sourcing.
+- **Context:** SFX categories established: UI (10 sounds), Ship (14 sounds), Combat (6 sounds), Events (5 sounds), Environment (6 contexts). Cinematic audio perspective confirmed.
+- **Needs:** Specific sound design for each effect, asset sourcing strategy, variations per sound to avoid repetition, environment sound variants per friendly sub-type.
+
 ### Combat Visual Design
 - **Source:** 10_ui_and_presentation.md
 - **Problem:** How does combat look visually within the cockpit view?
