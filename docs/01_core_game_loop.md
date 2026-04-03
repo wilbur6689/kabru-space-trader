@@ -36,66 +36,46 @@ Start Turn
 ### Hierarchy
 ```
 Galaxy
-└── Regional Clusters
-    ├── Hub Systems (1-2 per cluster) — major cities of space
-    └── Sub-Systems (several per cluster) — smaller outposts
+└── Quadrants (Q01-Q04)
+    └── Regions (12x12 grid per quadrant, 10x10 usable core)
+        └── Systems (200 populated per region, each with discoveries)
 ```
 
-### Hub Systems (Major)
-- Respawn points for player death
-- Shipyards for buying new ships
-- Full merchant access and services
-- Main quest events and story progression
-- Bulletin boards with known neighboring system addresses
-- NPCs and traders who share intel, tips, and warnings
+### System Population Tiers
+- **Major** (12-18 discoveries): Large, bustling systems — full services, missions, NPCs
+- **Moderate** (7-11 discoveries): Mid-sized systems with solid services
+- **Minor** (3-6 discoveries): Small systems with basic services
+- **Measly** (3 discoveries): Bare minimum — merchant, repair, refueling
 
-### Sub-Systems (Minor)
-- Industrial colonies
-- Mining colonies
-- Side quest locations
-- Trading outposts
-- Random events and encounters
+### System Alignments
+- **Friendly**: Civilized, safe, governed
+- **Neutral**: Independent, self-governing
+- **Hostile**: Dangerous environment (wildlife, contamination)
+- **Pirate-Controlled**: Occupied by a pirate faction
+- **Dead**: Lifeless, abandoned ruins
 
 ---
 
-## System Types
+## System Discoveries
+Any system can contain any type of discovery. Population tier determines how many.
 
-### Friendly Systems
-Discoverable locations include:
-- Merchants / Trading posts
-- Shipyards
-- Resource deposits
-- Black markets
-- Quest givers / NPCs
-- Refueling stations
+**Services**: Merchants, weapon/engine/armor/jump drive upgrades, shipyards, repair, refueling, mission boards, black markets, information brokers, NPC quest givers
 
-### Dead Systems
-Discoverable locations include:
-- Salvage wreckage
-- Ancient ruins / artifacts
-- Resource deposits (uncontested but dangerous)
-- Derelict ships
-- Hidden caches from previous inhabitants
+**Loot**: Hidden caches, salvage, resource deposits, ancient ruins, derelict ships, intel caches, ghost towns
 
-### Hostile Systems
-Ruled by an evil gang or army. Discoverable locations include:
-- Enemy outposts (combat risk)
-- Imprisoned merchants (rescue for loyalty/discounts)
-- Stolen cargo (high value loot)
-- Black markets (better prices but more dangerous)
-- Intel / data caches (reveal info about other systems)
+**Encounters**: Pirate hideouts, enemy outposts, ambushes, distress signals, hostile wildlife, contaminated zones, space anomalies
 
 ### System State Changes
-- Systems can change from friendly to hostile based on neighboring system loyalties
-- Hostile systems can become friendly if the player **eliminates the threat**, giving a sense of progression
-- Previously visited friendly systems have a small chance of becoming hostile depending on neighboring systems
+- Alignment can shift over time based on player actions and neighboring system loyalties
+- Pirate-Controlled systems can become Friendly if the player eliminates the controlling faction
+- Previously Friendly systems can become Pirate-Controlled or Hostile depending on regional dynamics
 
 ---
 
 ## Search and Discovery
 
 ### Progressive Exploration
-- Each system has a **variable number** of discoverable locations depending on system type and size
+- Each system has a **variable number** of discoverable locations depending on population tier
 - Each search action uses **one turn** and reveals the **next hidden location** in the system
 - The game engine **procedurally generates** the discoverable encounters within each group of systems
 - Discoveries are **dangerous** — searching may reveal pirate hideouts, enemy bases, or other threats
@@ -110,23 +90,23 @@ Ruled by an evil gang or army. Discoverable locations include:
 
 ## Navigation
 
-### 6-Digit Address System
-- Every system in the galaxy has a unique **6-digit numerical address** (e.g., 384721)
+### Quadrant-Region Address System
+- The galaxy is divided into **4 quadrants** (Q01-Q04) around a central origin
+- Every system has a unique address: **Q[quadrant]-R[xx][yy]-[system]** (e.g., Q02-R0307-4821)
+- Each quadrant has a **12x12 grid** of regions, with a **10x10 usable core** and a 2-cell dead space border
 - **Most addresses are empty space** — nothing at that location
 - **Populated addresses** contain hub systems, sub-systems, dead systems, or hostile systems
-- Regional networks are clusters of populated addresses near each other
 
 ### Jump Travel
 - Player inputs a **destination address** into the ship's jump drive
-- Ship calculates the **shortest jump path** through various systems to reach the destination
-- Ship reports the **number of jumps required** to arrive
-- Jump range is limited by the ship's **jump drive capability** — upgrades unlock farther destinations
+- **Inter-region jumps**: Ship calculates the route through intermediate regions — **no pass-thru events**, only the destination can trigger arrival events
+- **Intra-region travel**: Moving between systems within a region routes through intermediate systems — **pass-thru events may occur** based on danger zone and system contents
+- Jump range is limited by the ship's **jump drive tier** (Manhattan distance from current region)
 
 ### Travel Events
-- **Unknown territory**: Slim chance of triggering encounters/events when passing through
-- **Known routes**: Much lower chance of negative events
-- **New regions**: Always have a chance to trigger side missions or main story arc events
-- Player can potentially encounter events at intermediate systems along the route
+- **Intra-region pass-thru**: Events triggered by what exists at systems along the route (ambushes, distress signals, turf wars)
+- **Pass-thru event chance**: Scaled by danger zone — low near center, high at edges
+- **New regions**: Arrival events can trigger side missions or main story arc events
 
 ---
 
@@ -141,8 +121,8 @@ Players can learn about new system addresses and destinations through multiple c
 
 ### NPCs and Traders
 - Talking to merchants or locals reveals specific addresses
-- Tips like "System 482103 has cheap ore"
-- Warnings like "Avoid the 55xxxx region — pirates"
+- Tips like "Q01-R0305-2410 has cheap ore"
+- Warnings like "Avoid deep Q04 — Void Reavers"
 
 ### Purchased Star Charts
 - Pay credits to unlock a batch of known addresses in a region
@@ -169,7 +149,7 @@ Players can learn about new system addresses and destinations through multiple c
 ## Death and Respawn
 
 ### When the Player Dies
-1. Player **respawns at the last merchant** they visited
+1. Player **respawns at the last Friendly Major or Moderate system** they visited
 2. A **basic loaner/escape pod** is provided for travel
 3. The player's ship remains **where they died**
 4. **0% to 50% of cargo** in the abandoned ship is looted by enemies
@@ -194,12 +174,12 @@ Players can learn about new system addresses and destinations through multiple c
 ## Tutorial / Opening Sequence
 
 ### Starting Scenario: Stranded
-1. Player begins **stranded** with a **broken ship** orbiting a lesser-known planet in a sub-system
+1. Player begins **stranded** with a **broken ship** orbiting a lesser-known planet in a Minor system within Q01-R0101
 2. The ship broke down while on a delivery run to pick up cargo
 3. Player must **repair the ship** by finding parts and resources
 4. Player must **purchase new components** to get flight-worthy
 5. Player figures out how to **navigate** to the destination
-6. Player **delivers the cargo** to a city space station in the **main hub** of the region
+6. Player **delivers the cargo** to a second system, then is directed to **Earth** (Q01-R0101-1000)
 7. Upon delivery, the **tutorial ends**
 8. The player discovers the **main story hook** at the hub station
 9. The open galaxy is now available to explore freely
@@ -208,7 +188,7 @@ Players can learn about new system addresses and destinations through multiple c
 - Searching and discovery mechanics
 - Repairing and upgrading the ship
 - Trading and purchasing
-- Navigation using the 6-digit address system
+- Navigation using the quadrant-region address system
 - Interacting with NPCs and locations
 - Traveling between systems
 

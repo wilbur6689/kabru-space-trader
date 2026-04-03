@@ -130,17 +130,19 @@ Sizes overlap between classes — a small Hauler is only slightly better at carg
 
 ---
 
-## Ship Availability by Location
+## Ship Availability by Discovery Type
 
-| Location | Available Ships |
+Ships are purchased at systems that have a **Shipyard discovery**. What ships are available depends on what other discoveries exist at that system.
+
+| Discovery Context | Available Ships |
 |----------|----------------|
-| **Shipyard Hub** | All 6 main classes — **small size only** |
-| **Military Hub** | Gunships, Battleships, and Corvettes — medium + large |
-| **Trade Hub** | Freighters and Haulers — medium + large |
-| **Tech Hub** | Clippers and Corvettes — medium + large |
-| **Science Hub** | Clippers — medium + large |
-| **Outlaw Hub** | Black market variants of all 6 main classes |
-| **Sub-systems** | No ships — parts and upgrades only |
+| **Shipyard (any system)** | All 6 main classes — **small size only** |
+| **Shipyard + Weapon upgrades** | Gunships, Battleships, and Corvettes — medium + large |
+| **Shipyard + Merchant (trade focus)** | Freighters and Haulers — medium + large |
+| **Shipyard + Engine/Computer upgrades** | Clippers and Corvettes — medium + large |
+| **Shipyard + Jump drive upgrades** | Clippers — medium + large |
+| **Shipyard + Black market** | Black market variants of all 6 main classes |
+| **No Shipyard discovery** | No ships — parts and upgrades only |
 
 ---
 

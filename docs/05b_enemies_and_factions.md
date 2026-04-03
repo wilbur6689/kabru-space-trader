@@ -9,9 +9,9 @@ All enemies are MasterEntity objects with fame levels that scale with region dis
 
 ### Fame Calculation
 ```
-enemy_fame = base_fame + (region_distance / 5)
+enemy_fame = base_fame + (manhattan_distance / 2.5)
 ```
-Where `region_distance` is the region number's distance from center (region 00).
+Where `manhattan_distance` is the Manhattan distance from origin (0,0), calculated as |x| + |y| from the region's grid coordinates. Result is floored to integer.
 
 ### Base Fame by Enemy Type
 | Enemy | Base Fame | Difficulty | Behavior |
@@ -25,12 +25,12 @@ Where `region_distance` is the region number's distance from center (region 00).
 | Alien Vessel | 7 | Very Hard | Unpredictable |
 | Warlord | 8 | Boss | Faction boss, controls hostile system |
 
-### Example Scaling
-| Enemy | Region 00 | Region 10 | Region 25 | Region 40 |
-|-------|-----------|-----------|-----------|-----------|
-| Petty Pirate | Fame 1 | Fame 3 | Fame 6 | Fame 9 |
-| Pirate Captain | Fame 4 | Fame 6 | Fame 9 | Fame 12 |
-| Warlord | Fame 8 | Fame 10 | Fame 13 | Fame 16 |
+### Example Scaling (Manhattan Distance from Origin)
+| Enemy | Dist 2 (safe) | Dist 6 (mid) | Dist 10 (far) | Dist 16 (edge) | Dist 20 (max) |
+|-------|--------------|-------------|--------------|---------------|--------------|
+| Petty Pirate | Fame 1 | Fame 3 | Fame 5 | Fame 7 | Fame 9 |
+| Pirate Captain | Fame 4 | Fame 6 | Fame 8 | Fame 10 | Fame 12 |
+| Warlord | Fame 8 | Fame 10 | Fame 12 | Fame 14 | Fame 16 |
 
 ---
 
@@ -49,15 +49,17 @@ Each pirate faction has distinct combat behavior, reflecting their identity.
 ### Pirate Faction Difficulty Ranking
 | Quadrant | Faction | Difficulty | Combat Style |
 |----------|---------|-----------|--------------|
-| Q1 | **Silk Hand** | Easiest | Prefer bribery, flee when outmatched |
-| Q2 | **Phantom Circuit** | Easy-Medium | Evasive, trade intel to avoid combat |
-| Q3 | **Rust Collective** | Medium-Hard | Tanky, want your cargo, won't flee |
-| Q4 | **Void Reavers** | Hardest | Most aggressive, high damage, rarely flee |
+| Q01 | **Silk Hand** | Easiest | Prefer bribery, flee when outmatched |
+| Q02 | **Phantom Circuit** | Easy-Medium | Evasive, trade intel to avoid combat |
+| Q03 | **Rust Collective** | Medium-Hard | Tanky, want your cargo, won't flee |
+| Q04 | **Void Reavers** | Hardest | Most aggressive, high damage, rarely flee |
 
 ---
 
 ## Border Region Encounters
-- Regions on the **borders between pirate faction territories** contain enemies from **both factions**
+- Within **2 regions of a quadrant border**, factions blend based on proximity
+- **2 regions away**: 75% home faction / 25% neighbor faction
+- **1 region / on border**: 50/50 mix from both factions
 - These factions are **fighting over territory** — turf wars
 - Player may encounter mixed groups or stumble into ongoing battles
 - Can loot from both sides if caught in a turf war event
@@ -91,5 +93,5 @@ Each pirate faction has distinct combat behavior, reflecting their identity.
 - Bounty hunter trigger conditions (what makes a player "wanted")
 - Alien Vessel encounter design — unique mechanics or just high stats
 - Pirate Fleet encounter — is it one fight or multiple sequential fights
-- How faction territory borders are determined on the spiral galaxy
+- How faction territory borders interact at the 2-region blending zones
 - Enemy respawn mechanics in hostile systems (do they repopulate over time?)

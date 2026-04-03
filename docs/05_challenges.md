@@ -57,7 +57,7 @@ When a player searches a system, they may discover threats instead of beneficial
 
 ### Combat Overview
 - Combat is **turn-based**, consistent with the overall game
-- Triggered by dangerous discoveries, travel encounters, or hostile system events
+- Triggered by dangerous discoveries, travel encounters, or pirate-controlled system events
 - All entities (player, enemies) use the **MasterEntity** system with fame levels
 - Enemy behavior varies by **pirate faction affiliation**
 
@@ -115,29 +115,29 @@ Encounter Triggered
 All enemies are **MasterEntity** objects with fame levels. Fame is calculated as:
 
 ```
-enemy_fame = base_fame + (region_distance / 5)
+enemy_fame = base_fame + floor(manhattan_distance / 2.5)
 ```
 
-Where `region_distance` is the region number's distance from center (region 00).
+Where `manhattan_distance` is the Manhattan distance from origin (0,0), calculated as |x| + |y|.
 
 ### Base Fame by Enemy Type
 | Enemy | Base Fame | Difficulty | Behavior |
 |-------|-----------|-----------|----------|
 | Petty Pirate | 1 | Easy | Flees when damaged |
-| Gang Enforcer | 3 | Medium | Hostile system guards |
+| Gang Enforcer | 3 | Medium | Pirate-controlled system guards |
 | Pirate Captain | 4 | Medium | Fights to the end |
 | Patrol Ship | 4 | Medium | Scans for contraband (legitimate faction) |
 | Bounty Hunter | 5 | Hard | Targets wanted players |
 | Pirate Fleet | 6 | Hard | Overwhelming numbers |
 | Alien Vessel | 7 | Very Hard | Unpredictable |
-| Warlord | 8 | Boss | Faction boss, controls hostile system |
+| Warlord | 8 | Boss | Faction boss, controls pirate system |
 
 ### Example Scaling
-| Enemy | Region 00 | Region 10 | Region 25 | Region 40 |
-|-------|-----------|-----------|-----------|-----------|
-| Petty Pirate | Fame 1 | Fame 3 | Fame 6 | Fame 9 |
-| Pirate Captain | Fame 4 | Fame 6 | Fame 9 | Fame 12 |
-| Warlord | Fame 8 | Fame 10 | Fame 13 | Fame 16 |
+| Enemy | Dist 2 (safe) | Dist 6 (mid) | Dist 10 (far) | Dist 16 (edge) | Dist 20 (max) |
+|-------|--------------|-------------|--------------|---------------|--------------|
+| Petty Pirate | Fame 1 | Fame 3 | Fame 5 | Fame 7 | Fame 9 |
+| Pirate Captain | Fame 4 | Fame 6 | Fame 8 | Fame 10 | Fame 12 |
+| Warlord | Fame 8 | Fame 10 | Fame 12 | Fame 14 | Fame 16 |
 
 ---
 
@@ -161,20 +161,20 @@ Each pirate faction has distinct combat behavior, reflecting their identity.
 
 ---
 
-## Clearing Hostile Systems
+## Clearing Pirate-Controlled Systems
 
 ### Progressive Clearing Mechanic
-Hostile systems are controlled by a pirate faction. The player must weaken the faction's hold by discovering and eliminating enemy outposts before the boss comes looking for them.
+Pirate-Controlled systems are occupied by one of the 4 pirate factions. The player must weaken the faction's hold by discovering and eliminating enemy outposts before the boss comes looking for them.
 
 ### Clearing Process
-1. Player enters a hostile system and begins **searching** for locations
+1. Player enters a Pirate-Controlled system and begins **searching** for locations
 2. Some discoveries are **enemy outposts** — combat encounters
 3. Player must clear a **required number of outposts** to trigger the boss
-4. Required outpost count **scales with region distance**:
-   - Near center (region 00-10): 2 outposts
-   - Mid-range (region 11-25): 3 outposts
-   - Far regions (region 26-40): 4 outposts
-   - Deep space (region 40+): 5 outposts
+4. Required outpost count **scales with Manhattan distance from origin**:
+   - Safe/Inner (distance 1-5): 2 outposts
+   - Mid regions (distance 6-10): 3 outposts
+   - Far regions (distance 11-15): 4 outposts
+   - Edge regions (distance 16+): 5 outposts
 5. After clearing enough outposts, the **boss appears on the next search/turn**
 6. Boss **warns the player** that an attack is coming in **2-3 turns**
 7. Player has a minimum of **1 turn to leave** and prepare (repair, upgrade, restock)
@@ -200,14 +200,14 @@ Hostile systems are controlled by a pirate faction. The player must weaken the f
 - Price spikes — missed opportunity or scramble to buy before it rises more
 - Shortages — desired goods unavailable at current location
 - Regional economic shifts based on system hostility changes
-- Clearing a hostile system may open new trade routes and shift regional prices
+- Clearing a pirate-controlled system may open new trade routes and shift regional prices
 
 ### Financial Pressure
 - Ship repair costs after combat/hazards
 - Ship upgrade costs for progression (especially jump drive tiers)
 - New ship purchases at hub shipyards
 - Contraband fines if caught by patrols
-- Hostile system taxes for doing business
+- Pirate-controlled system taxes for doing business
 - Competition from NPC traders affecting supply/demand
 
 ---
@@ -235,8 +235,8 @@ Hostile systems are controlled by a pirate faction. The player must weaken the f
 |------|-------------|------|--------|--------|
 | Delivery | Transport cargo to a destination address | Travel encounters, deadlines | Credits | Hub bulletin board |
 | Smuggling | Move contraband past patrols | Patrol scans, fines | High credits, pirate fame | Pirate faction contacts |
-| Bounty | Hunt a target in a hostile system | Combat | Credits, reputation | Hub mission board |
-| Rescue | Free imprisoned merchant/NPC | Combat, hostile system | Reputation, loyalty discounts | Discovery or NPC tip |
+| Bounty | Hunt a target in a pirate-controlled system | Combat | Credits, reputation | Mission board discovery |
+| Rescue | Free imprisoned merchant/NPC | Combat, pirate-controlled system | Reputation, loyalty discounts | Discovery or NPC tip |
 | Exploration | Chart unknown system addresses | Unknown dangers | Discovery XP, reputation | Information broker |
 | Clearance | Eliminate hostile faction from a system | Heavy combat | System conversion, major reputation | Story or hub mission |
 | Investigation | Gather intel from data caches | Hostile territory | Lore, system addresses, story progression | Story events |
@@ -244,7 +244,7 @@ Hostile systems are controlled by a pirate faction. The player must weaken the f
 ### Mission Sources
 
 #### Legitimate Faction Missions
-- Offered at hub systems affiliated with a faction
+- Offered at Friendly systems with mission board discoveries
 - Completing them improves reputation with that faction
 - **Ripple effect**: Allied factions improve, rival factions decrease
 - Types: Delivery, Bounty, Rescue, Clearance, Investigation
@@ -261,7 +261,7 @@ Hostile systems are controlled by a pirate faction. The player must weaken the f
 - Types: Delivery, Exploration, Rescue
 
 ### Mission Difficulty Scaling
-- **Region distance** determines base mission difficulty and reward
+- **Manhattan distance from origin** determines base mission difficulty and reward
 - **Fame level** unlocks premium mission tiers within each region
 - Higher fame + distant regions = hardest missions with best payouts
 
@@ -304,9 +304,9 @@ Hostile systems are controlled by a pirate faction. The player must weaken the f
 ## Difficulty Scaling
 
 ### Regional Difficulty
-- Systems **farther from starting region** have stronger enemies and better loot
-- Enemy fame scales: base fame + (region_distance / 5)
-- Hostile systems in distant regions have more outposts to clear before boss
+- Systems **farther from origin (0,0)** have stronger enemies and better loot
+- Enemy fame scales: base fame + floor(manhattan_distance / 2.5)
+- Pirate-controlled systems at higher Manhattan distance have more outposts to clear
 - Jump drive upgrades naturally lead the player to harder content
 
 ### Player Power Growth
@@ -318,9 +318,9 @@ Hostile systems are controlled by a pirate faction. The player must weaken the f
 - Knowledge of the galaxy (known addresses, price trends, faction territories)
 
 ### Natural Progression
-- Starting region (00) — learn the basics, easy enemies, safe trading
-- Nearby regions — moderate challenges, first hostile system clearing
-- Mid-range regions — multiple pirate factions present, tougher enemies
+- Safe zone (distance 1-3) — learn the basics, Space Force controlled, safe trading
+- Inner regions (distance 4-6) — moderate challenges, first pirate-controlled system clearing
+- Mid regions (distance 7-9) — deep pirate territory, tougher enemies, faction border turf wars
 - Distant regions — high-fame enemies, complex faction politics
 - Far edges — border region turf wars, strongest enemies, best loot
 
@@ -335,7 +335,7 @@ _Add design notes, open questions, and decisions here._
 - Specific loot tables per enemy type and faction
 - Boss encounter combat design (phases, special abilities?)
 - Outpost rebuild rate when player delays boss fight
-- Mission reward scaling formula (region distance x fame)
+- Mission reward scaling formula (Manhattan distance x fame)
 - Mission slot progression curve (3 to 10 across 12 fame levels)
 - Intimidation success rate formula
 - Negotiation cost formula

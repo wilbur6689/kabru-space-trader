@@ -21,7 +21,7 @@ Missions provide structured objectives with rewards, reputation effects, and sto
 ## Mission Sources
 
 ### Legitimate Faction Missions
-- Offered at hub systems affiliated with a faction
+- Offered at Friendly systems with mission board discoveries
 - Completing them improves reputation with that faction
 - **Ripple effect**: Allied factions improve, rival factions decrease
 - Types: Delivery, Bounty, Rescue, Clearance, Investigation
@@ -45,7 +45,7 @@ Missions provide structured objectives with rewards, reputation effects, and sto
 - Higher fame + distant regions = hardest missions with best payouts
 
 ### Reward Multipliers
-- Region distance multiplier: +2-5% per region from center
+- Manhattan distance multiplier: +2-5% per Manhattan distance from origin
 - Fame level multiplier: +3-8% per fame level
 - Combined: base reward x region modifier x fame modifier
 
@@ -69,14 +69,14 @@ Missions provide structured objectives with rewards, reputation effects, and sto
 ---
 
 ## Mission Board Mechanics
-- Each hub has a **mission board** with available missions
+- Systems with a **mission board discovery** offer available missions
 - Mission board refreshes periodically (every N turns or on each visit)
-- Available missions reflect the hub's specialization:
-  - Military Hub: More bounty and clearance missions
-  - Trade Hub: More delivery missions with better credit rewards
-  - Outlaw Hub: Smuggling and pirate faction missions
-  - Science Hub: Exploration and investigation missions
-- Mission difficulty and rewards scale with the region
+- Available missions reflect the system's **alignment and regional specialty**:
+  - Friendly systems with weapon upgrades: More bounty and clearance missions
+  - Friendly systems with merchants: More delivery missions with better credit rewards
+  - Pirate-Controlled systems / black markets: Smuggling and pirate faction missions
+  - Systems with jump drive upgrades: Exploration and investigation missions
+- Mission difficulty and rewards scale with Manhattan distance from origin
 
 ---
 

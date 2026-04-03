@@ -1,7 +1,7 @@
-# Hostile System Clearing
+# Pirate-Controlled System Clearing
 
 ## Overview
-Hostile systems are controlled by a pirate faction. The player must weaken the faction's hold by discovering and eliminating enemy outposts, then defeating the faction boss to liberate the system.
+**Pirate-Controlled** systems (alignment) are occupied by one of the 4 pirate factions. The player must weaken the faction's hold by discovering and eliminating enemy outposts, then defeating the faction boss to liberate the system. Note: this mechanic applies specifically to Pirate-Controlled alignment, not Hostile alignment (which represents environmental dangers, not faction occupation).
 
 ---
 
@@ -11,11 +11,11 @@ Hostile systems are controlled by a pirate faction. The player must weaken the f
 1. Player enters a hostile system and begins **searching** for locations
 2. Some discoveries are **enemy outposts** — combat encounters
 3. Player must clear a **required number of outposts** to trigger the boss
-4. Required outpost count **scales with region distance**:
-   - Near center (region 00-10): 2 outposts
-   - Mid-range (region 11-25): 3 outposts
-   - Far regions (region 26-40): 4 outposts
-   - Deep space (region 40+): 5 outposts
+4. Required outpost count **scales with Manhattan distance from origin**:
+   - Safe/Inner (distance 1-5): 2 outposts
+   - Mid regions (distance 6-10): 3 outposts
+   - Far regions (distance 11-15): 4 outposts
+   - Edge regions (distance 16+): 5 outposts
 5. After clearing enough outposts, the **boss appears on the next search/turn**
 6. Boss **warns the player** that an attack is coming in **2-3 turns**
 7. Player has a minimum of **1 turn to leave** and prepare (repair, upgrade, restock)
@@ -27,7 +27,7 @@ Hostile systems are controlled by a pirate faction. The player must weaken the f
 
 ### Boss Profile
 - Boss is the **faction Warlord** — highest fame enemy in the system
-- Boss fame = base 8 + region modifier (region_distance / 5)
+- Boss fame = base 8 + Manhattan distance modifier (manhattan_distance / 2.5, floored)
 - Uses the same MasterEntity system as all other entities
 
 ### Boss Encounter Flow
@@ -55,18 +55,20 @@ Hostile systems are controlled by a pirate faction. The player must weaken the f
 
 ---
 
-## Hostile System Properties
+## Pirate-Controlled System Properties
 
-### While Hostile
+### While Pirate-Controlled
 - Nothing known on arrival — everything hidden until explored
 - **Tax charged** before the player can conduct business (15% minus 1% per fame level)
-- Higher risk but higher reward than friendly systems
+- Higher risk but higher reward than Friendly systems
 - Pirate faction enemies patrol the system
+- Alignment: **Pirate-Controlled**
 
 ### After Clearing
-- Basic friendly services restored
+- Alignment changes to **Friendly**
+- Basic services restored
 - Hidden locations become accessible
-- No more hostile encounters in the system
+- No more pirate encounters in the system
 - Tax removed
 - System contributes to regional stability
 

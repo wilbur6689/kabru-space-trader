@@ -33,7 +33,7 @@ The fundamental principles that guide every design decision:
 | Document | Description | Status |
 |----------|-------------|--------|
 | [Core Game Loop](01_core_game_loop.md) | Turn-based loop, searching, discovery, navigation | Draft |
-| [Planets & Systems](02_planets.md) | System types, clusters, 6-digit addresses, discovery | Draft |
+| [Planets & Systems](02_planets.md) | System types, quadrant-region grid, Q-R addresses, discovery | Draft |
 | [Ship](03_ship.md) | Ship classes, jump drive, upgrades, cargo, death/recovery | Draft |
 | [Pilot](04_pilot.md) | Stats, skills, backgrounds, reputation, journal | Draft |
 | [Challenges](05_challenges.md) | Discovery dangers, travel encounters, combat, missions | Draft |
@@ -51,20 +51,20 @@ The fundamental principles that guide every design decision:
 
 ### New Game (Tutorial)
 1. Player creates pilot (name, background)
-2. Player begins **stranded** with a broken ship in a sub-system
+2. Player begins **stranded** with a broken ship in a Minor system within Q01-R0101
 3. Repair the ship (learn searching, discovery, and repair)
-4. Purchase new parts (learn trading and NPC interaction)
-5. Navigate to the hub system (learn 6-digit address system and jump travel)
-6. Deliver cargo to the city space station
-7. Tutorial ends — main story hook revealed
+4. Fly to a second system to deliver goods (learn main story hook)
+5. Navigate to Earth at Q01-R0101-1000 (learn quadrant-region address system and jump travel)
+6. Main story begins at Earth
+7. Tutorial ends — open galaxy available
 
 ### Core Loop
 1. Arrive at a system — view overview (type, danger, discovery progress "X / Y")
 2. **Search** to discover locations (costs 1 turn, may find merchants, resources, or dangers)
 3. **Visit** discovered locations freely (trade, repair, accept missions, gather intel)
-4. **Travel** — input a 6-digit address, ship plots jump path, travel with encounter risk
+4. **Travel** — input a Q-R address, ship plots jump path, intra-region travel has pass-thru events
 5. Repeat — build wealth, upgrade ship (especially jump drive), explore new regions
-6. **Clear hostile systems** to change the galaxy and progress
+6. **Clear pirate-controlled systems** to change the galaxy and progress
 
 ### Progression Gates
 - **Jump drive tier** gates access to new regional clusters
@@ -73,7 +73,7 @@ The fundamental principles that guide every design decision:
 - **Knowledge** (known addresses, price trends) enables smarter trading
 
 ### Death and Recovery
-- Player respawns at last visited merchant with a loaner ship
+- Player respawns at last visited Friendly Major/Moderate system with a loaner ship
 - Original ship stays at death location with 0-50% cargo looted
 - Player recovers ship or buys a new one — always able to continue
 
@@ -87,12 +87,12 @@ _Record major design decisions here as they are made._
 | Engine | Godot 4.3+ | Open-source, strong 2D/UI, cross-platform export | 2026-03-31 |
 | Primary Language | GDScript | Native Godot integration, rapid iteration | 2026-03-31 |
 | Game Timing | Turn-based | Strategic trading and exploration, no time pressure | 2026-03-31 |
-| Navigation | 6-digit address system | Massive explorable galaxy, rewards curiosity | 2026-03-31 |
+| Navigation | Quadrant-region address system (Q-R) | Massive explorable galaxy, rewards curiosity | 2026-03-31 |
 | Discovery | Progressive, persistent DB | Each search matters, revisits show progress | 2026-03-31 |
 | Economy | Stock market model | Dynamic prices create trading opportunities | 2026-03-31 |
-| Death | Respawn at merchant, no game over | Setback not ending, always recoverable | 2026-03-31 |
-| Galaxy Structure | Hub + sub-system clusters | Natural progression, clear player goals | 2026-03-31 |
-| System Types | Friendly / Dead / Hostile | Variety in exploration, clearable hostiles = progression | 2026-03-31 |
+| Death | Respawn at last Friendly Major/Moderate | Setback not ending, always recoverable | 2026-03-31 |
+| Galaxy Structure | 4 quadrants, grid-based regions | Natural progression, pirate factions per quadrant | 2026-04-03 |
+| System Types | Tier (Major→Measly) + Alignment (5 types) | Any combo possible, weighted by distance | 2026-04-03 |
 | Story Pacing | Player-triggered only | No timers, player controls the pace | 2026-03-31 |
 
 ---
@@ -101,8 +101,8 @@ _Record major design decisions here as they are made._
 
 ### MVP (Minimum Viable Product)
 - [ ] Core turn-based game loop functional (search, visit, travel)
-- [ ] 6-digit address system with jump path routing
-- [ ] 1 regional cluster with hub + sub-systems (friendly, dead, hostile)
+- [ ] Quadrant-region address system with jump path routing
+- [ ] 1 region with systems of varying tier and alignment
 - [ ] Progressive discovery with persistent database
 - [ ] Basic trading with stock market price model
 - [ ] Basic ship with jump drive upgrades
@@ -113,8 +113,8 @@ _Record major design decisions here as they are made._
 - [ ] Tutorial sequence (stranded ship → delivery → hub)
 
 ### Version 1.0
-- [ ] Multiple regional clusters with varying difficulty
-- [ ] Full system type variety (all friendly, dead, hostile sub-types)
+- [ ] Multiple regions across all 4 quadrants with varying difficulty
+- [ ] Full system variety (all population tiers and alignments)
 - [ ] Multiple ship classes with full upgrade paths
 - [ ] Combat system with enemy types and faction bosses
 - [ ] Mission system (delivery, bounty, rescue, clearance, exploration)
@@ -140,10 +140,10 @@ _Record major design decisions here as they are made._
 _Major unresolved design questions that need answers._
 
 1. Main story arc content (Acts 1-3)
-2. Faction names, territories, and relationships
-3. Procedural generation algorithm for 6-digit address mapping
-4. Currency name
-5. Exact numerical balance values (prices, XP, damage)
+2. Legitimate faction names, territories, and relationships
+3. Procedural generation algorithm for Q-R address mapping
+4. Visual theme assignment for systems (space station vs. planet vs. nebula)
+5. Regional trade good specialty generation algorithm
 
 ---
 

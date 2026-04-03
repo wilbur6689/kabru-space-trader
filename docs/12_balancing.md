@@ -170,12 +170,12 @@ This document defines the numerical balance, progression curves, and tuning para
 
 ## Jump Drive Tiers
 
-| Tier | Region Range | Cost | Notes |
-|------|-------------|------|-------|
-| 1 | Up to 5 regions | Starter (free) | Tutorial ship |
-| 2 | Up to 10 regions | 5,000 | Nearby regions open up |
-| 3 | Up to 20 regions | 15,000 | Mid-game, most hub regions |
-| 4 | Up to 40 regions | 40,000 | Deep space, far wild space |
+| Tier | Max Manhattan Distance | Cost | Notes |
+|------|----------------------|------|-------|
+| 1 | 2 regions | Starter (free) | Starting safe zone + immediate neighbors |
+| 2 | 5 regions | 5,000 | Nearby quadrant territory |
+| 3 | 9 regions | 15,000 | Mid-game, most hub regions reachable |
+| 4 | 14 regions | 40,000 | Deep space, far edges |
 | 5 | Unlimited | 100,000 | Full galaxy access |
 
 ---
@@ -328,7 +328,7 @@ damage = base_weapon_damage * (1 + combat_skill * 0.03) * (1 + fame_combat_bonus
 
 ### Enemy Fame Levels
 ```
-enemy_fame = base_fame + (region_distance / 5)
+enemy_fame = base_fame + floor(manhattan_distance / 2.5)
 ```
 
 | Enemy | Base Fame |
@@ -358,20 +358,22 @@ enemy_fame = base_fame + (region_distance / 5)
 
 ## Discovery Balance
 
-### Locations Per System Type
-| System Type | Hidden Locations | Notes |
-|-------------|-----------------|-------|
-| Hub System | 1-3 | Core services already known |
-| Friendly Sub-System | 2-4 | Basic services known on arrival |
-| Dead System | 3-6 | Nothing known, everything searched |
-| Hostile System | 2-5 | Nothing known until explored |
+### Locations Per Population Tier
+| Population Tier | Total Discoveries | Min Services | Remaining |
+|----------------|------------------|-------------|-----------|
+| Major | 12-18 | 3+ (typically 6-10) | 6-12 |
+| Moderate | 7-11 | 3+ (typically 4-6) | 3-7 |
+| Minor | 3-6 | 3 | 0-3 |
+| Measly | 3 | 3 | 0 |
 
-### Discovery Danger Rates
-| System Type | Chance of Dangerous Discovery | Notes |
-|-------------|------------------------------|-------|
+### Discovery Danger Rates by Alignment
+| Alignment | Chance of Dangerous Discovery | Notes |
+|-----------|------------------------------|-------|
 | Friendly | ~10-15% | Mostly safe |
+| Neutral | ~15-20% | Minor hazards |
+| Hostile | ~30-45% | Environmental dangers |
+| Pirate-Controlled | ~40-60% | Combat encounters likely |
 | Dead | ~25-35% | Environmental hazards |
-| Hostile | ~40-60% | Combat encounters likely |
 
 ### Discovery Reward Values
 | Discovery Type | Reward | System Type |
@@ -394,20 +396,19 @@ enemy_fame = base_fame + (region_distance / 5)
 
 ## Travel Balance
 
-### Jump Path Length
-| Route Type | Typical Jumps | Encounter Chance Per Jump |
-|------------|---------------|-------------------------|
-| Within cluster | 1-3 jumps | Low |
-| Adjacent cluster | 3-6 jumps | Low-Medium |
-| Distant cluster | 6-12 jumps | Medium |
-| Cross-galaxy | 12+ jumps | Medium-High |
+### Travel Model
+- **Inter-region jumps**: No pass-thru events. Only destination can trigger arrival events.
+- **Intra-region travel**: Pass-thru events at intermediate systems, scaled by danger zone.
 
-### Travel Risk Tuning
-| Route Type | Negative Event Chance | Positive Event Chance |
-|------------|----------------------|----------------------|
-| Known route | 2-5% per jump | 1-3% per jump |
-| Unknown territory | 8-15% per jump | 5-8% per jump |
-| New region entry | 15-25% | 10-20% (story/side quest) |
+### Intra-Region Pass-Thru Risk
+| Danger Zone (Manhattan Dist) | Negative Event Chance | Positive Event Chance |
+|------------------------------|----------------------|----------------------|
+| Safe (1-3) | Low | Low |
+| Low-Medium (4-6) | Moderate | Moderate |
+| Medium-High (7-9) | High | Moderate |
+| Extreme (10+) | Very High | Moderate |
+
+Events are also influenced by what exists at the pass-thru system (e.g., Pirate Turf War Zone, Distress Signal).
 
 ---
 
@@ -437,8 +438,8 @@ enemy_fame = base_fame + (region_distance / 5)
 
 ## Mission Reward Scaling
 
-### Base Rewards (Region 00)
-| Mission Type | Base Reward (shards) | Per Region Distance | Per Fame Level |
+### Base Rewards
+| Mission Type | Base Reward (shards) | Per Manhattan Distance | Per Fame Level |
 |-------------|---------------------|--------------------:|---------------:|
 | Delivery | 200-500 | +2% | +3% |
 | Smuggling | 500-1,200 | +4% | +3% |
@@ -449,23 +450,23 @@ enemy_fame = base_fame + (region_distance / 5)
 | Investigation | 300-700 | +2% | +3% |
 
 ### Example Calculation
-Clearance mission, region 30, fame 8:
+Clearance mission, Manhattan distance 14, fame 8:
 - Base: 3,500 shards
-- Region bonus: 30 × 5% = +150% → +5,250
+- Distance bonus: 14 × 5% = +70% → +2,450
 - Fame bonus: 8 × 8% = +64% → +2,240
-- **Total: ~10,990 shards**
+- **Total: ~8,190 shards**
 
 ---
 
 ## Hostile System Clearing
 
-### Outposts Required (Scales with Region Distance)
-| Region Range | Outposts to Clear |
-|-------------|-------------------|
-| Region 00-10 | 2 outposts |
-| Region 11-25 | 3 outposts |
-| Region 26-40 | 4 outposts |
-| Region 40+ | 5 outposts |
+### Outposts Required (Scales with Manhattan Distance)
+| Distance Range | Outposts to Clear |
+|---------------|-------------------|
+| Distance 1-5 (safe/inner) | 2 outposts |
+| Distance 6-10 (mid) | 3 outposts |
+| Distance 11-15 (far) | 4 outposts |
+| Distance 16+ (edge) | 5 outposts |
 
 ### Boss Mechanics
 - Boss appears on next turn after clearing required outposts
@@ -480,32 +481,31 @@ Clearance mission, region 30, fame 8:
 
 ### No Difficulty Settings
 The game has **no Easy/Normal/Hard modes**. Difficulty is determined entirely by:
-- **Where the player explores** — farther from region 00 = harder
-- **Which pirate faction quadrant** they enter
-- **Whether they venture into wild space** (no respawn points)
+- **Where the player explores** — higher Manhattan distance from origin = harder
+- **Which pirate faction quadrant** they enter (Q01 easiest → Q04 hardest)
+- **Whether they venture into edge regions** (distance 10+, no hubs, no respawn points)
 
 ### Pirate Faction Difficulty Ranking
 | Quadrant | Faction | Difficulty | Combat Style |
 |----------|---------|-----------|-------------|
-| Q1 | **Silk Hand** | Easiest | Prefer bribery, flee when outmatched |
-| Q2 | **Phantom Circuit** | Easy-Medium | Evasive, trade intel to avoid combat |
-| Q3 | **Rust Collective** | Medium-Hard | Tanky, want your cargo, won't flee |
-| Q4 | **Void Reavers** | Hardest | Most aggressive, high damage, rarely flee |
+| Q01 | **Silk Hand** | Easiest | Prefer bribery, flee when outmatched |
+| Q02 | **Phantom Circuit** | Easy-Medium | Evasive, trade intel to avoid combat |
+| Q03 | **Rust Collective** | Medium-Hard | Tanky, want your cargo, won't flee |
+| Q04 | **Void Reavers** | Hardest | Most aggressive, high damage, rarely flee |
 
 ### Opening NPC Warning
 At the start of the game (after tutorial), an NPC at the hub warns the player about the galaxy's danger zones:
-- Which quadrants contain which pirate factions
+- Which quadrants contain which pirate factions (Q01=Silk Hand easiest → Q04=Void Reavers hardest)
 - General difficulty of each quadrant
-- Warning about wild space (no respawn)
-- Recommendation to stay near region 00 until stronger
+- Warning about edge regions and dead space border
+- Recommendation to stay near the center safe zones until stronger
 
-### Regional Difficulty Scaling
-- **Region 00 (Starting)**: Easy enemies, low danger, forgiving economy
-- **Nearby regions (01-10)**: Moderate, first hostile systems
-- **Mid-range regions (11-25)**: Multiple pirate factions, tougher enemies
-- **Far regions (26-40)**: High-fame enemies, complex faction politics
-- **Galaxy edges (40+)**: Strongest enemies, best loot, pirate faction strongholds
-- **Wild space**: No hubs, no respawn — maximum risk and reward
+### Regional Difficulty Scaling (Manhattan Distance from Origin)
+- **Safe zone (distance 1-3)**: Space Force controlled, easy enemies, stable economy
+- **Inner regions (distance 4-6)**: Moderate, first hostile systems, pirate activity begins
+- **Mid regions (distance 7-9)**: Deep pirate territory, tougher enemies, faction border turf wars
+- **Edge regions (distance 10+)**: Strongest enemies, best loot, pirate strongholds, no hubs
+- **Dead space border (outermost 2 cells)**: Accessible but empty, no content
 
 ---
 
@@ -539,7 +539,7 @@ At the start of the game (after tutorial), an NPC at the hub warns the player ab
 - Skill level distribution at each milestone
 - Fame level progression rate
 - Black market deal success rate
-- Which pirate quadrant players explore first
+- Which pirate quadrant players explore first (Q01-Q04)
 
 ---
 

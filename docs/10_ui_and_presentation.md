@@ -81,8 +81,8 @@ The cockpit remains visible during all transitions. Overlays layer on top of spe
 All screens are displayed **within the cockpit view** on monitors and overlay panels.
 
 ### Main HUD (Always Visible on Dashboard)
-- Current system name and XX-XXXX address
-- System type indicator (friendly/dead/hostile)
+- Current system name and Q-R address
+- System alignment indicator (Friendly/Neutral/Hostile/Pirate-Controlled/Dead) and population tier
 - Discovery progress: "X / Y locations discovered"
 - Shards balance
 - Ship status bars (hull, shields)
@@ -99,7 +99,7 @@ All screens are displayed **within the cockpit view** on monitors and overlay pa
 
 ### System Overview (On Cockpit Monitors)
 - System artwork visible through cockpit window
-- System name, XX-XXXX address, type, and danger level on monitors
+- System name, Q-R address, type, and danger level on monitors
 - Discovery progress display: "X / Y locations discovered"
 - List of discovered locations with interaction buttons
 - Core action menu:
@@ -109,7 +109,7 @@ All screens are displayed **within the cockpit view** on monitors and overlay pa
   - **Save** (manual save — only available when docked)
   - **Journal** (open pilot log)
   - **Messages** (open message inbox)
-- NPC interaction options (at hub systems)
+- NPC interaction options (at systems with NPC discoveries)
 
 ### Discovered Location Panel (Overlay)
 - Location name and type (merchant, shipyard, resource, black market, danger, etc.)
@@ -126,9 +126,9 @@ All screens are displayed **within the cockpit view** on monitors and overlay pa
 - Haggle button (1 attempt per merchant)
 
 ### Star Map / Navigation Screen (On Cockpit Monitors)
-- **XX-XXXX address input field** — player types destination address
+- **Q-R address input field** — player types destination address
 - Known systems displayed as nodes (from bulletin boards, NPCs, star charts, exploration)
-- System type indicators (friendly = green, dead = gray, hostile = red, unknown = dim)
+- Alignment indicators (Friendly = green, Neutral = yellow, Hostile = orange, Pirate-Controlled = red, Dead = gray, unknown = dim)
 - Jump drive range overlay — reachable vs. unreachable systems highlighted
 - Jump path preview — shows intermediate systems and number of jumps required
 - Travel risk indicator (known route vs. unknown territory)
@@ -160,7 +160,7 @@ All screens are displayed **within the cockpit view** on monitors and overlay pa
 - Active mission list
 
 ### Player Journal Screen (On Cockpit Monitors)
-- Visited systems list with XX-XXXX addresses and discovery progress
+- Visited systems list with Q-R addresses and discovery progress
 - Known addresses (all sources — exploration, NPCs, charts, missions)
 - Last known prices per visited system
 - Regional goods overview (supply/demand hints per region)

@@ -7,12 +7,19 @@ This document covers travel encounters, environmental hazards, system events, ec
 
 ## Travel Encounters
 
-### Route-Based Risk
-| Route Type | Encounter Chance | Notes |
-|------------|-----------------|-------|
-| Known route (previously traveled) | Very Low | Established and safer |
-| Unknown territory | Slim chance | Anything could happen |
-| New region entry | Moderate | Side missions, story events, or dangers |
+### Two Travel Modes
+- **Inter-region jumps**: No pass-thru events. Only the destination region can trigger an arrival event.
+- **Intra-region travel**: Moving between systems within a region routes through intermediate systems. Pass-thru events may occur.
+
+### Intra-Region Pass-Thru Risk (Scaled by Danger Zone)
+| Danger Zone (Manhattan Dist) | Event Chance | Notes |
+|------------------------------|-------------|-------|
+| Safe (1-3) | Low | Near center, civilized space |
+| Low-Medium (4-6) | Moderate | Pirate activity begins |
+| Medium-High (7-9) | High | Deep pirate territory |
+| Extreme (10+) | Very High | Galaxy edges, strongholds |
+
+Pass-thru events are also influenced by **what exists at the intermediate system** (e.g., Pirate Turf War Zone has high pull-in chance, Distress Signal offers a choice to stop).
 
 ### Travel Event Types
 | Event | Risk | Reward | Trigger |
@@ -95,9 +102,9 @@ This document covers travel encounters, environmental hazards, system events, ec
 ## Difficulty Scaling
 
 ### Regional Difficulty
-- Systems **farther from starting region** have stronger enemies and better loot
-- Enemy fame scales: base fame + (region_distance / 5)
-- Hostile systems in distant regions have more outposts to clear before boss
+- Systems **farther from origin (0,0)** have stronger enemies and better loot
+- Enemy fame scales: base fame + (manhattan_distance / 2.5)
+- Hostile systems at higher Manhattan distance have more outposts to clear before boss
 - Jump drive upgrades naturally lead the player to harder content
 
 ### Player Power Growth
@@ -109,11 +116,11 @@ This document covers travel encounters, environmental hazards, system events, ec
 - Knowledge of the galaxy (known addresses, price trends, faction territories)
 
 ### Natural Progression
-- Starting region (00) — learn the basics, easy enemies, safe trading
-- Nearby regions — moderate challenges, first hostile system clearing
-- Mid-range regions — multiple pirate factions present, tougher enemies
-- Distant regions — high-fame enemies, complex faction politics
-- Far edges — border region turf wars, strongest enemies, best loot
+- **Safe zone (distance 1-3)** — learn the basics, Space Force controlled, safe trading
+- **Inner regions (distance 4-6)** — moderate challenges, first hostile system clearing
+- **Mid regions (distance 7-9)** — deep pirate territory, tougher enemies, faction border turf wars
+- **Edge regions (distance 10+)** — strongest enemies, best loot, pirate strongholds
+- **Dead space border** — accessible but empty, no content
 
 ---
 

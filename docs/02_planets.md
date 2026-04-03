@@ -7,42 +7,26 @@ This document defines how planetary systems are structured, generated, categoriz
 
 ## Galaxy Structure
 
-### Hierarchy
-```
-Galaxy (Spiral layout from origin)
-└── Regions (15-20 total, numbered 00-99)
-    ├── Hub Regions (~50% of regions) — contain a hub cluster
-    │   ├── Hub System (1 per cluster, specialized)
-    │   ├── Sub-Systems (3-5 per cluster, tied to hub)
-    │   ├── Unaffiliated Systems (scattered, hidden)
-    │   └── Dead Systems (scattered)
-    └── Wild Space Regions (~50% of regions) — no hub
-        ├── Unaffiliated Systems (scattered, hidden)
-        └── Dead Systems (scattered)
-```
+> **Detailed in:** [02a_galaxy_structure.md](02a_galaxy_structure.md)
 
-### Region Format
-- Every system has an address in the format **XX-XXXX** (e.g., 38-0322)
-- **First 2 digits**: Region code (00-99)
-- **Last 4 digits**: System address within that region (0000-9999)
-- Most addresses within a region are **empty space**
-- A moderate number of addresses (20-50) are populated per region
-- 3-5 of those are "known" sub-systems tied to the hub
+### Grid-Based Quadrant System
+- Galaxy divided into **4 quadrants** (Q01-Q04) around central origin (0,0)
+- **12x12 grid per quadrant**, 10x10 usable core, 2-cell dead space border
+- Origin (0,0) is logic-only — not accessible in-game
+- Earth at **Q01-R0101-1000**, 4 safe zone regions at R0101 in each quadrant
 
-### Spiral Layout
-- The galaxy is arranged in a **spiral pattern** radiating outward from the origin (Region 00)
-- Region numbers generally **increase with distance** from the origin
-- Regions that are **close on the spiral** form natural clusters, but aren't necessarily sequential (e.g., regions 3-5, 12-16, and 34-37 might each be nearby clusters on different arms)
-- **Lower numbers** = generally closer to home = safer
-- **Higher numbers** = generally further out = more dangerous
-- Exact spiral algorithm TBD — key principle: distance from origin determines danger level
+### Address Format
+- Full system address: **Q[quadrant]-R[xx][yy]-[system]** (e.g., Q02-R0307-4821)
+- 1,000 valid system addresses per region (constrained by digit rules)
+- **200 populated systems** per region, weighted by danger zone
 
-### Galaxy Size
-- **15-20 regions** in the starting galaxy
-- ~50% have hub clusters (8-10 hub regions)
-- ~50% are wild space (7-10 wild regions)
-- 5-8 clusters total for the main gameplay experience
-- Story-critical clusters can be **medium sized** (6-10 sub-systems) while normal clusters are **small** (3-5 sub-systems)
+### Danger Scaling
+- **Manhattan distance** from origin determines danger: |x| + |y|
+- Safe (1-3) → Low-Med (4-6) → Med-High (7-9) → Extreme (10+)
+
+### Pirate Factions
+- Q01 = Silk Hand (easiest), Q02 = Phantom Circuit, Q03 = Rust Collective, Q04 = Void Reavers (hardest)
+- 2-region faction blending at quadrant borders
 
 ---
 
@@ -252,26 +236,21 @@ Controlled by an evil gang or army. **Nothing known on arrival** — everything 
 
 ---
 
-## Starting Region (00)
+## Starting Region (Q01-R0101)
+
+> **Detailed in:** [02a_galaxy_structure.md](02a_galaxy_structure.md)
 
 ### Composition
-- **1 Hub System**: Regional hub where the tutorial delivery ends and main story begins
-- **2-3 Friendly Sub-Systems**: Including the tutorial starting system (where the player is stranded)
-- **1 Known Hostile System**: Well-known threat that NPCs warn the player about early — serves as the player's first clearance target and goal
-- **0-1 Dead Systems**: Optional, for early exploration practice
+- **Earth** at Q01-R0101-1000 — main hub, Space Force HQ, main story start
+- **2-3 Friendly Sub-Systems** — including the tutorial starting system
+- **1 Known Hostile System** — first clearance target
+- **0-1 Dead Systems** — optional early exploration
 
 ### Tutorial Flow
-1. Player starts **stranded** with a broken ship at a sub-system in region 00
-2. The player knows only their current address (written on a **sticky note** on the dashboard)
-3. Player repairs ship, talks to NPCs, learns hub address from **NPC dialogue** ("Don't you remember? It's XX-XXXX. It's also on your nav computer.")
-4. Player discovers the address is also stored in the **ship's nav computer** (teaches that the nav computer stores addresses)
-5. Player delivers cargo to the hub station
-6. Tutorial ends, main story hook revealed
-7. NPCs at the hub **warn about the nearby hostile system** — giving the player their first real goal
-
-### What the Player Knows at Game Start
-- Their current sub-system address (sticky note)
-- Nothing else — all other addresses learned through gameplay
+1. Player starts stranded at a sub-system in Q01-R0101
+2. Repairs ship, learns basics
+3. Flies to second sub-system to deliver goods (learns main story hook)
+4. Directed to fly to Earth (Q01-R0101-1000) to begin main story
 
 ---
 
@@ -337,26 +316,20 @@ Controlled by an evil gang or army. **Nothing known on arrival** — everything 
 
 ## Navigation Between Systems
 
-### Jump Drive Tiers
-Travel between systems is gated by the ship's **jump drive range**. No fuel cost or movement points for travel.
+> **Detailed in:** [02a_galaxy_structure.md](02a_galaxy_structure.md)
 
-| Tier | Region Range | Access | Notes |
-|------|-------------|--------|-------|
-| Tier 1 | Up to 10 regions from current location | Starting cluster + nearby regions | Starter drive |
-| Tier 2 | Up to 20 regions from current location | Most of the galaxy | Mid-game upgrade |
-| Tier 3 | Unlimited | Entire galaxy including far wild space | End-game drive |
+### Jump Drive Tiers (Manhattan Distance)
+| Tier | Max Distance | Notes |
+|------|-------------|-------|
+| Tier 1 | 2 regions | Starting safe zone |
+| Tier 2 | 5 regions | Nearby quadrant territory |
+| Tier 3 | 9 regions | Mid-game, most hubs reachable |
+| Tier 4 | 14 regions | Deep space, far edges |
+| Tier 5 | Unlimited | Full galaxy access |
 
-### Route Calculation
-- Player inputs a destination address (XX-XXXX format)
-- Ship calculates the **shortest jump path** through intermediate systems
-- Ship reports the **number of jumps required**
-- Multi-hop routes may pass through unknown territory
-- Region distance determines if the destination is reachable with current jump drive tier
-
-### Travel Risk
-- **Unknown territory**: Slim chance of encounters when passing through
-- **Known routes**: Much lower chance of negative events
-- **New regions**: Always have a chance to trigger side missions or story events
+### Travel Model
+- **Inter-region jumps**: No pass-thru events, only destination arrival events
+- **Intra-region travel**: Pass-thru events may occur at intermediate systems, scaled by danger zone
 
 ---
 
@@ -368,21 +341,17 @@ Travel between systems is gated by the ship's **jump drive range**. No fuel cost
 - Name generation algorithm TBD
 
 ### System Generation
-- [ ] Algorithm for determining if an address (XX-XXXX) is populated
-- [ ] Spiral layout mapping — how region numbers map to galaxy positions
-- [ ] Cluster generation — how hubs and sub-systems are grouped within a region
-- [ ] System type distribution per region (weighted by distance from origin)
+- [ ] Algorithm for determining if a system address is populated (within 1,000 valid addresses per region)
+- [ ] System type distribution per region (weighted by Manhattan distance — see 02a distribution table)
 - [ ] Location count generation per system type
 - [ ] Discovery content generation per system
 - [ ] Event placement across systems
 - [ ] Unaffiliated system placement and reward generation
 
 ### Regional Networks
-- [ ] Exact number of populated addresses per region (target: 20-50)
-- [ ] Hub-to-sub-system relationship generation
-- [ ] Wild space region content generation
-- [ ] Distance-based danger weight formula
-- [ ] Jump drive range calculation relative to spiral position
+- [ ] Hub-to-sub-system relationship generation per region
+- [ ] Distance-based danger weight formula using Manhattan distance
+- [ ] Pirate faction blending at quadrant borders
 
 ---
 
@@ -390,9 +359,7 @@ Travel between systems is gated by the ship's **jump drive range**. No fuel cost
 _Add design notes, open questions, and decisions here._
 
 ### Open Design Questions
-- Exact spiral layout algorithm for region positioning
-- Distance calculation method between regions on the spiral
-- Procedural name generation approach
+- Procedural name generation approach for systems
 - Station building: ship type, costs, deployment mechanics
 - Station tier upgrade costs and pirate raid mechanics
 - How cleared hostile systems integrate back into the hub supply chain

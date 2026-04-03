@@ -15,8 +15,8 @@ This document defines how game state is persisted, loaded, and managed. The save
 - **Owned ships** — Up to 4 stored ships with class, components, location (hub address), and any in-transit status with delivery turn
 - **Loaner state** — Whether player is in a loaner shuttle (death recovery)
 - **Abandoned ship** — Address where ship was lost, remaining cargo, loot percentage taken
-- **Current location** — XX-XXXX address of current system
-- **Last hub location** — XX-XXXX address of last visited hub (respawn point)
+- **Current location** — Q-R address of current system
+- **Last hub location** — Q-R address of last visited hub (respawn point)
 - **Star date** — Current game star date (used for economy calculations)
 - **Turn count** — Background game clock
 - **Galaxy seed** — Master seed for procedural generation of unvisited systems
@@ -124,7 +124,7 @@ This document defines how game state is persisted, loaded, and managed. The save
       "class": "hauler",
       "size": "large",
       "name": "Big Bertha",
-      "stored_at": "08-0421",
+      "stored_at": "Q01-R0305-2410",
       "hull_current": 120,
       "hull_max": 150,
       "components": { "jump_drive": 2, "hull_plating": 4, "shields": 2, "cargo_bay": 5, "scanner": 2, "weapons": 1, "engine": 1, "nav_computer": 3 },
@@ -141,8 +141,8 @@ This document defines how game state is persisted, loaded, and managed. The save
       "components": { "jump_drive": 2, "hull_plating": 3, "shields": 3, "cargo_bay": 1, "scanner": 2, "weapons": 3, "engine": 3, "nav_computer": 1 },
       "cargo": [],
       "in_transit": true,
-      "transit_origin": "08-0421",
-      "transit_destination": "14-1102",
+      "transit_origin": "Q01-R0305-2410",
+      "transit_destination": "Q02-R0407-1830",
       "transit_arrival_turn": 156
     }
   ],
@@ -156,35 +156,33 @@ This document defines how game state is persisted, loaded, and managed. The save
   },
 
   "location": {
-    "current_address": "08-0421",
-    "last_hub_address": "08-0100"
+    "current_address": "Q01-R0305-2410",
+    "last_respawn_address": "Q01-R0201-1470"
   },
 
   "discovery_database": {
-    "08-0421": {
+    "Q01-R0305-2410": {
       "system_name": "Voss Prime",
-      "system_type": "friendly",
-      "sub_type": "mining_colony",
-      "total_locations": 4,
+      "population_tier": "moderate",
+      "alignment": "friendly",
+      "total_locations": 8,
       "discovered_locations": [
         { "id": "merchant_01", "type": "merchant", "name": "Riker's Trading Post" },
         { "id": "resource_01", "type": "resource_deposit", "name": "Deep Ore Vein" },
         { "id": "danger_01", "type": "hostile_wildlife", "name": "Tunnel Beasts" }
       ],
-      "hostility": "friendly",
       "cleared": false
     },
-    "12-0887": {
+    "Q03-R0604-3250": {
       "system_name": "Ashfall",
-      "system_type": "hostile",
-      "sub_type": "gang_controlled",
-      "total_locations": 4,
+      "population_tier": "moderate",
+      "alignment": "pirate_controlled",
+      "total_locations": 9,
       "discovered_locations": [
         { "id": "outpost_01", "type": "enemy_outpost", "name": "Reaver Outpost Alpha", "cleared": true },
         { "id": "outpost_02", "type": "enemy_outpost", "name": "Reaver Outpost Beta", "cleared": false }
       ],
-      "hostility": "hostile",
-      "controlling_faction": "void_reavers",
+      "controlling_faction": "rust_collective",
       "cleared": false,
       "outposts_cleared": 1,
       "outposts_required": 3,
@@ -194,7 +192,7 @@ This document defines how game state is persisted, loaded, and managed. The save
   },
 
   "economy": {
-    "08-0421": {
+    "Q01-R0305-2410": {
       "last_visit_star_date": 480,
       "departure_star_date": 482,
       "prices": {
@@ -214,12 +212,12 @@ This document defines how game state is persisted, loaded, and managed. The save
   },
 
   "known_addresses": [
-    { "address": "00-0001", "name": "Tutorial Start", "source": "exploration", "system_type": "friendly" },
-    { "address": "00-0100", "name": "Haven Station", "source": "exploration", "system_type": "friendly" },
-    { "address": "08-0421", "name": "Voss Prime", "source": "npc_tip", "system_type": "friendly" },
-    { "address": "08-0100", "name": "Irongate Hub", "source": "bulletin_board", "system_type": "friendly" },
-    { "address": "12-0887", "name": "Ashfall", "source": "star_chart", "system_type": "hostile" },
-    { "address": "14-1102", "name": null, "source": "star_chart", "system_type": "unknown" }
+    { "address": "Q01-R0101-2410", "name": "Tutorial Start", "source": "exploration", "alignment": "friendly" },
+    { "address": "Q01-R0101-1000", "name": "Earth", "source": "exploration", "alignment": "friendly" },
+    { "address": "Q01-R0305-2410", "name": "Voss Prime", "source": "npc_tip", "alignment": "friendly" },
+    { "address": "Q01-R0201-1470", "name": "Irongate Station", "source": "bulletin_board", "alignment": "friendly" },
+    { "address": "Q03-R0604-3250", "name": "Ashfall", "source": "star_chart", "alignment": "pirate_controlled" },
+    { "address": "Q02-R0407-1830", "name": null, "source": "star_chart", "alignment": "unknown" }
   ],
 
   "missions": {
@@ -230,7 +228,7 @@ This document defines how game state is persisted, loaded, and managed. The save
         "title": "Emergency Medical Run",
         "source_faction": "faction_alpha",
         "source_type": "faction",
-        "destination": "14-1102",
+        "destination": "Q02-R0407-1830",
         "objective": "Deliver 20 medical supplies",
         "reward_shards": 3500,
         "deadline_turn": 160,
@@ -258,8 +256,8 @@ This document defines how game state is persisted, loaded, and managed. The save
 
   "player_stations": [
     {
-      "address": "22-4481",
-      "region": 22,
+      "address": "Q02-R0503-2471",
+      "region": "Q02-R0503",
       "name": "Outpost Alpha",
       "tier": 1,
       "stored_cargo": [
@@ -271,27 +269,27 @@ This document defines how game state is persisted, loaded, and managed. The save
   "black_market_contacts": [
     {
       "id": "dealer_01",
-      "location": "12-0887",
+      "location": "Q03-R0604-3250",
       "found_via": "search",
-      "faction": "void_reavers"
+      "faction": "rust_collective"
     },
     {
       "id": "dealer_02",
-      "location": "08-0421",
+      "location": "Q01-R0305-2410",
       "found_via": "npc_referral",
       "referring_npc": "merchant_riker"
     }
   ],
 
   "journal": {
-    "visited_systems": ["00-0001", "00-0100", "08-0421", "08-0100", "12-0887"],
+    "visited_systems": ["Q01-R0101-2410", "Q01-R0101-1000", "Q01-R0305-2410", "Q01-R0201-1470", "Q03-R0604-3250"],
     "last_known_prices": {
-      "08-0421": { "raw_ores_minerals": 32, "refined_metals": 58, "food_rations": 85 },
-      "08-0100": { "refined_metals": 95, "manufactured_components": 110, "food_rations": 42 }
+      "Q01-R0305-2410": { "raw_ores_minerals": 32, "refined_metals": 58, "food_rations": 85 },
+      "Q01-R0201-1470": { "refined_metals": 95, "manufactured_components": 110, "food_rations": 42 }
     },
     "regional_goods_overview": {
-      "00": { "common_goods": ["food_rations", "agricultural_supplies", "water_ice"], "hint": "Agricultural region — food is cheap, technology is scarce" },
-      "08": { "common_goods": ["raw_ores_minerals", "refined_metals", "mechanical_parts"], "hint": "Mining region — raw materials abundant, food in demand" }
+      "Q01-R0101": { "common_goods": ["food_rations", "agricultural_supplies", "water_ice"], "hint": "Agricultural region — food is cheap, technology is scarce" },
+      "Q01-R0305": { "common_goods": ["raw_ores_minerals", "refined_metals", "mechanical_parts"], "hint": "Mining region — raw materials abundant, food in demand" }
     },
     "statistics": {
       "total_shards_earned": 42000,
@@ -314,7 +312,7 @@ This document defines how game state is persisted, loaded, and managed. The save
       {
         "type": "faction_war",
         "factions": ["faction_alpha", "faction_gamma"],
-        "affected_regions": [8, 12, 14],
+        "affected_regions": ["Q01-R0305", "Q01-R0407", "Q02-R0302"],
         "started_turn": 100,
         "effects": "weapons and medicine prices +80% in affected regions"
       }
@@ -322,7 +320,7 @@ This document defines how game state is persisted, loaded, and managed. The save
     "pirate_turf_wars": [
       {
         "factions": ["void_reavers", "silk_hand"],
-        "border_regions": [10, 11],
+        "border_regions": ["Q01-R0501", "Q02-R0501"],
         "intensity": "high"
       }
     ]
@@ -399,13 +397,12 @@ Each slot displays:
 
 ### What the Seed Generates
 - Whether an address is populated or empty space
-- System type (friendly, dead, hostile)
-- Sub-type
+- Population tier (Major, Moderate, Minor, Measly)
+- Alignment (Friendly, Neutral, Hostile, Pirate-Controlled, Dead)
 - System name
 - Number of discoverable locations
 - Base economy (goods selection, initial stock, initial prices)
-- Hub specialization (for hub systems)
-- Cluster membership
+- Discovery types available at the system
 
 ### What Gets Saved Over the Seed
 - Any player-modified state (discovered locations, economy changes, cleared status)

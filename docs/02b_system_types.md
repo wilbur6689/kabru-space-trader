@@ -1,193 +1,179 @@
 # System Types
 
 ## Overview
-This document defines every type of system players can visit, their services, properties, and how they change over time. Systems fall into categories: Hub Systems, Sub-Systems, Unaffiliated Systems, Dead Systems, Hostile Systems, and Wild Space.
+Every system in the galaxy is defined by two independent axes: **population tier** (how much is there) and **alignment** (who controls it and how dangerous it is). Any combination is possible but weighted by distance from origin. All systems contain **discoveries** — interactive locations the player can find through searching.
 
 ---
 
-## Hub Systems
+## System Hierarchy
 
-### Hub Overview
-- 1 hub per cluster region
-- Serve as the center of regional activity
-- **Respawn points** for player death
-- Main quest events and story progression
-- All core services are **immediately known** on arrival (not hidden)
-- **1-3 hidden discoverable locations** (secret contacts, black market entrances, side quest triggers)
+```
+Quadrant → many Regions → many Systems → many Discoveries
+```
 
-### Hub Specializations
-Each hub has a unique specialization. The system is **modular** — new specializations can be added over time.
+- A **system** is a single addressable location (e.g., Q02-R0307-4821)
+- Systems contain **discoveries** — things the player can interact with
+- What a system looks like visually (space station, planet, nebula, moon, etc.) is layered on top as theme flavor
 
-| Specialization | Focus | Unique Services |
-|---|---|---|
-| **Trade Hub** | Commerce center | Best marketplace prices, widest goods selection, trade route intel |
-| **Military Hub** | Defense and combat | Weapons dealer, bounty board, combat missions, patrol info |
-| **Tech Hub** | Engineering and upgrades | Best ship upgrades, jump drive specialists, scanner equipment |
-| **Shipyard Hub** | Ship manufacturing | Widest ship selection, custom builds, best trade-in values |
-| **Outlaw Hub** | Underground economy | Open black market, smuggling missions, no patrol scans |
-| **Science Hub** | Research and exploration | Artifact appraisal, exploration missions, dead system intel |
+---
 
-### Hub Services (Always Known on Arrival)
-- Full marketplace
-- Shipyard (buy/sell ships — selection varies by specialization)
+## Axis 1: Population Tier
+
+Population tier determines how many discoveries a system has. **Every system has a minimum of 3 service discoveries** (e.g., merchant, repair, refueling) regardless of tier.
+
+| Tier | Total Discoveries | Min Services | Remaining (loot/encounters) | Description |
+|------|------------------|-------------|---------------------------|-------------|
+| **Major** | 12-18 | 3+ (typically 6-10) | 6-12 | Large, bustling systems with many services and things to do |
+| **Moderate** | 7-11 | 3+ (typically 4-6) | 3-7 | Mid-sized systems with a solid range of services |
+| **Minor** | 3-6 | 3 | 0-3 | Small systems with basic services and limited extras |
+| **Measly** | 3 | 3 | 0 | Bare minimum — a merchant, repair, and refueling. Nothing beyond the basics. |
+
+### Population Distribution by Danger Zone
+
+| Tier | Safe (1-3) | Mid (4-6) | Far (7-9) | Edge (10+) |
+|------|-----------|-----------|-----------|-----------|
+| Major | 25% | 15% | 5% | 2% |
+| Moderate | 40% | 30% | 20% | 10% |
+| Minor | 25% | 35% | 40% | 38% |
+| Measly | 10% | 20% | 35% | 50% |
+
+Inner regions are mostly civilized and populated. Outer regions are mostly sparse. A Major system can still appear at the edge — it's just rare.
+
+---
+
+## Axis 2: Alignment
+
+Alignment determines who controls the system, how dangerous it is, and what types of missions are generated there.
+
+| Alignment | Description | Controlled By | Mission Types |
+|-----------|-------------|--------------|---------------|
+| **Friendly** | Welcoming, civilized, safe | Space Force or legitimate faction | Delivery, trade, bounty, rescue |
+| **Neutral** | No allegiance, not dangerous but not helpful | Independent, self-governing | Exploration, delivery, neutral trade |
+| **Hostile** | Dangerous environment, not faction-controlled | Natural threats — wildlife, contamination, unstable terrain | Exploration, rescue, investigation |
+| **Pirate-Controlled** | Occupied by a pirate faction | One of the 4 pirate factions | Smuggling, bounty, clearance, pirate faction missions |
+| **Dead** | Lifeless, abandoned, no active anything | No one — ruins and void | Exploration, salvage, investigation |
+
+### Alignment Distribution by Danger Zone
+
+| Alignment | Safe (1-3) | Mid (4-6) | Far (7-9) | Edge (10+) |
+|-----------|-----------|-----------|-----------|-----------|
+| Friendly | 50% | 25% | 10% | 3% |
+| Neutral | 25% | 25% | 15% | 10% |
+| Hostile | 10% | 15% | 20% | 22% |
+| Pirate-Controlled | 5% | 25% | 40% | 50% |
+| Dead | 10% | 10% | 15% | 15% |
+
+---
+
+## Combined Examples
+
+All 20 tier + alignment combinations are valid but **weighted** — some are common, some are rare.
+
+| Combination | Likelihood | Example |
+|-------------|-----------|---------|
+| Major + Friendly | Common (inner regions) | Large civilized station with 15+ discoveries, full services |
+| Moderate + Neutral | Common (mid regions) | Independent trading post with 8 discoveries |
+| Minor + Pirate-Controlled | Common (outer regions) | Small pirate outpost with 4 discoveries |
+| Measly + Friendly | Common (everywhere) | Tiny refueling stop with 3 basic services |
+| Major + Dead | Rare | Massive ruined city — lots of salvage, ruins, caches |
+| Major + Pirate-Controlled | Uncommon | Large pirate stronghold with many outposts and black markets |
+| Measly + Dead | Common (edges) | A single salvage site in empty space |
+| Minor + Hostile | Common (far regions) | Small system with wildlife or contamination hazards |
+
+---
+
+## Discovery Types
+
+Any system can have any discovery type. More populated systems simply have more. Discoveries are what the player interacts with when they arrive at or search a system.
+
+### Services (interactive, repeatable)
+- Merchant / trading post (buy/sell goods)
+- Weapon upgrade shop
+- Engine/computer upgrade shop
+- Armor/hull upgrade shop
+- Jump drive upgrade shop
+- Shipyard (buy/sell ships)
 - Repair dock
-- Refueling
-- Mission board / Bulletin board
-- NPC quest givers
-- Star chart vendors
-- Information brokers
-- Specialization-specific services
+- Refueling station
+- Mission board / bulletin board
+- Black market contact
+- Information broker (sell system addresses, intel)
+- Star chart vendor
+- NPC quest giver
 
----
-
-## Sub-Systems
-
-### Sub-System Overview
-- 3-5 per small cluster, 6-10 per story cluster
-- **Tied to the hub** as part of its supply chain
-- Sub-system types match the hub's specialization (mining colonies feed a shipyard hub, weapons factories feed a military hub, etc.)
-- Have **small specialized merchants** that sell ship parts and goods at **wholesale discount** but with **much more limited supply**
-- Creates a trade-off: cheap prices at subs but limited stock vs. full selection at hub but higher prices
-- Some services are **known on arrival**, additional **2-4 hidden discoverable locations**
-
-### Sub-System Types
-| Sub-Type | Description | Key Feature | Typical Hub Connection |
-|----------|-------------|-------------|----------------------|
-| Mining Colony | Resource extraction settlement | Cheap raw materials, ore, minerals | Shipyard, Industrial hubs |
-| Industrial Colony | Manufacturing hub | Machinery, alloys, manufactured goods | Military, Tech hubs |
-| Agricultural Settlement | Food and textile production | Cheap food, livestock, textiles | Trade, any hub |
-| Uninhabited Planet | Empty world, no civilization | Resource gathering, low danger | Science, any hub |
-| Primitive Race | Pre-technology species | Unique trade goods, cultural items | Science, Trade hubs |
-| Weapons Factory | Arms manufacturing | Cheap weapons, munitions | Military hub |
-| Tech Outpost | Research station | Electronics, software, scanner parts | Tech, Science hubs |
-
-### Sub-System Services (Known on Arrival)
-- Limited marketplace (based on colony type)
-- Basic repair services
-- Refueling
-- Wholesale specialist merchant (limited stock, discounted prices)
-
----
-
-## Friendly Systems
-
-### Overview
-Welcoming, civilized systems with established governance. Some services are **known on arrival**.
-
-**Known Locations (Immediate):**
-- Basic merchant / trading post
-- Repair services (if available)
-- Refueling
-
-**Hidden Discoverable Locations (2-4):**
-- Additional merchants / specialized traders
-- Resource deposits
-- Black markets
-- Quest givers / NPCs
-- Hidden caches
-
----
-
-## Dead Systems
-
-### Overview
-Lifeless, abandoned, or destroyed systems with no active civilization. **Nothing known on arrival** — everything must be searched for. Ghost towns still exist and can be plundered.
-
-**Hidden Discoverable Locations (3-6):**
+### Loot (one-time or depleting)
+- Hidden cache (shards/goods)
+- Stolen cargo
 - Salvage wreckage
+- Resource deposit (raw materials)
 - Ancient ruins / artifacts
-- Resource deposits (uncontested but dangerous)
-- Derelict ships
-- Hidden caches from previous inhabitants
-- Ghost towns with abandoned supplies
+- Derelict ship (tow opportunity)
+- Intel / data cache (reveals addresses)
+- Ghost town (abandoned supplies)
 
-**Properties:**
-- Scattered individually throughout regions (not clustered)
-- **Permanently dead** — cannot be repopulated or restored
-- No lore connection for now (may be updated later)
-- Environmental hazards during exploration
+### Encounters (events that trigger on discovery)
+- Pirate hideout (combat)
+- Enemy outpost (combat, required for system clearing)
+- Ambush / trap
+- Distress signal (rescue or trap)
+- Hostile wildlife
+- Contaminated zone (hull damage)
+- Unstable ruins (structural collapse)
+- Imprisoned NPC (rescue)
+- Space anomaly
+- Pirate turf war (crossfire)
 
-### Dead System Sub-Types
-| Sub-Type | Description | Key Feature |
-|----------|-------------|-------------|
-| No Planets | Empty void, just a star | Minimal discoveries, quick pass-through |
-| Dead World | Destroyed inhabitants, ruins | Salvage, ghost towns, artifacts |
-| Asteroid Field | Broken planet chunks | Mining opportunities, navigation hazards |
-| Destroyed World Chunks | Remnants of a catastrophe | High-value salvage, dangerous terrain |
-
----
-
-## Hostile Systems
-
-### Overview
-Controlled by an evil gang or army. **Nothing known on arrival** — everything hidden until the player explores or clears the threat.
-
-**Hidden Discoverable Locations (2-5):**
-- Enemy outposts (combat risk)
-- Imprisoned merchants (rescue for loyalty/discounts)
-- Stolen cargo (high value loot)
-- Black markets (better prices but more dangerous)
-- Intel / data caches (reveal info about other systems)
-
-**Key Mechanics:**
-- Controlled by hostile factions (gangs, warlords, rogue armies)
-- Higher risk but higher reward than friendly systems
-- Player can **eliminate the threat** to convert the system
-- **After clearing**: System reverts to its **original pre-occupation state** as a basic friendly system with the basic services it had before the gang took over
-- Previously hidden locations may become known/accessible after clearing
+### Passive/Environmental
+- Patrol checkpoint (contraband scan)
+- Merchant convoy (trading opportunity)
+- Smuggler's route
+- Player station slot (empty address for building)
+- Story event trigger
 
 ---
 
-## Unaffiliated Systems
+## Regional Economy
 
-### Overview
-- Scattered throughout regions, **not tied to any hub**
-- **Hard to find** — only discoverable by punching in random addresses or through rare intel
-- Can be friendly or hostile
-- **High reward but temporary**:
-  - **One-time caches**: Loot and leave, resources/goods gone forever
-  - **Depleting supply**: Finite stock that decreases with each visit, eventually empty
-  - **Price decay**: Goods are available but sell price drops as the player floods the market (stock market model handles this naturally)
-- Mix of the above — each unaffiliated system is different
-- No known services on arrival — everything must be discovered through searching
-- Found in both hub regions and wild space regions
+### Trade Good Specialties
+- Each region is generated with a **randomly weighted specialty list** covering all trade goods (food, ore, weapons, electronics, etc.)
+- This creates a **unique economic fingerprint** per region — no two regions have the same supply profile
+- The **top 25% of specialties** by weight become the region's dominant industries
+- Dominant specialties determine:
+  - What goods are **abundant and cheap** in that region
+  - What Major systems focus their services around
+  - What sub-systems support (supply chain feeding the dominant industries)
+- Players discover trade routes by finding which regions have high supply (cheap) vs. low supply (expensive) for specific goods
 
----
-
-## Wild Space Regions
-
-### Overview
-- ~50% of regions are wild space (7-10 regions)
-- **No hub system** — no respawn point, no safe harbor
-- Contains scattered unaffiliated systems, dead systems, and empty space
-- Venturing into wild space is a **serious commitment**
-- If the player dies in wild space, they respawn at their **last visited hub** — potentially many jumps away
-- Ship remains at death location in wild space — recovery is difficult and dangerous
-- **Highest risk, highest reward** exploration territory
+### Respawn Points
+- The player's **last visited Friendly Major or Moderate system** serves as their respawn point
+- If the player dies, they respawn there with a loaner Shuttle
+- Regions with no Friendly Major/Moderate systems have **no respawn point** — this is what makes them dangerous
 
 ---
 
-## System State and Dynamics
+## Wild Space
 
-### Hostility Changes
-- Previously visited **friendly systems** have a small chance of becoming **hostile** depending on neighboring system loyalties
-- **Hostile systems** can become **friendly** if the player eliminates the controlling faction
-- Cleared hostile systems revert to their **pre-occupation state** with basic services
-- Neighboring system allegiances influence each other over time
-- Clearing a hostile system may stabilize neighboring friendly systems
+- Any region with **0 Friendly Major systems** is labeled **"Wild Space"**
+- Nav computer warns: *"Entering wild space. No major friendly systems detected. No respawn available."*
+- Typically found at Manhattan distance 10+ but determined dynamically by region content
+- Highest risk, highest reward exploration territory
 
-### System Events
-- Any system can be marked with a **random or preprogrammed event**
-- Events include: mission triggers, enemy attacks, special discoveries, story arc moments
-- Events can fire when the player first arrives or on subsequent visits
-- New regional entries always have a chance to trigger side missions or main story events
+---
+
+## Dead Space Border
+
+- The outermost 2 cells of each quadrant's 12x12 grid are **dead space**
+- Accessible but empty — only Dead + Measly systems and void
+- Nav computer warns: *"Entering uncharted dead space. No viable systems detected."*
+- Serves as a natural galaxy boundary without a hard wall
 
 ---
 
 ## Open Design Questions
-- How cleared hostile systems integrate back into the hub supply chain
-- Unaffiliated system generation — rarity and content distribution
-- Dead system lore (future consideration)
-- System naming — procedural generation approach
-- How sub-system types are matched to hub specializations algorithmically
-- What specific services unlock when a hostile system is cleared
+- How alignment affects discovery weighting (e.g., Pirate-Controlled systems have more black markets, Hostile systems have more environmental hazards)
+- Exact discovery type weights per alignment
+- How regional trade good specialties are generated (number of goods, weight ranges)
+- Visual theme assignment — how a system gets labeled as space station vs. planet vs. nebula
+- Whether alignment can shift over time without player action (e.g., Neutral → Pirate-Controlled)
+- How the minimum 3 services are selected per system (always merchant/repair/refuel, or varied?)
+- How Pirate-Controlled systems differ from the old "hostile system clearing" mechanic

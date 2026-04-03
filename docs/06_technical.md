@@ -33,7 +33,7 @@ SpaceGame/
 │   ├── main.tscn              # Entry scene
 │   ├── game/                  # Core game scenes
 │   │   ├── game_manager.tscn  # Top-level game controller
-│   │   ├── star_map.tscn      # Galaxy/star map with 6-digit address input
+│   │   ├── star_map.tscn      # Galaxy/star map with quadrant-region address input
 │   │   ├── travel.tscn        # Jump travel sequence (multi-hop)
 │   │   └── search.tscn        # System search / discovery screen
 │   ├── system/                # System-related scenes
@@ -62,7 +62,7 @@ SpaceGame/
 │   │   ├── audio_manager.gd   # Audio controller
 │   │   ├── discovery_db.gd    # Persistent discovery database
 │   │   ├── economy_manager.gd # Stock market price simulation
-│   │   └── navigation_manager.gd # 6-digit address system and jump routing
+│   │   └── navigation_manager.gd # quadrant-region address system and jump routing
 │   ├── models/                # Data model scripts
 │   │   ├── pilot.gd           # Pilot resource class
 │   │   ├── ship.gd            # Ship resource class
@@ -112,13 +112,13 @@ Main (Node)
 ### Autoload Singletons
 | Singleton | Purpose |
 |-----------|---------|
-| `GameState` | Tracks pilot, ship, current 6-digit address, turn count, game clock |
+| `GameState` | Tracks pilot, ship, current quadrant-region address, turn count, game clock |
 | `SaveManager` | Handles save/load to `user://saves/` |
 | `EventBus` | Global signal bus for decoupled communication |
 | `AudioManager` | Manages music and SFX playback |
 | `DiscoveryDB` | Persistent discovery database — tracks all discovered locations per system |
 | `EconomyManager` | Stock market price simulation, supply/demand tracking per system |
-| `NavigationManager` | 6-digit address lookup, jump path calculation, route planning |
+| `NavigationManager` | quadrant-region address lookup, jump path calculation, route planning |
 
 ### Custom Resources
 - Use Godot's `Resource` class for data models (Pilot, Ship, Planet, Cargo, Mission)
@@ -189,7 +189,7 @@ MasterEntity (fame_level, name, location_address, base_stats...)
 ```
 
 **Key Principles:**
-- `MasterEntity` contains all **shared properties**: fame level, name, location (XX-XXXX address), base stats
+- `MasterEntity` contains all **shared properties**: fame level, name, location (Q-R address), base stats
 - Subclasses inherit from `MasterEntity` and add **unique properties** specific to their type
 - The **PlayerEntity** and their current ship are one combined entity — ship class determines stat caps
 - **EnemyEntity** has its own fame level, enabling the intimidation mechanic (player fame vs. enemy fame)

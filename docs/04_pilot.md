@@ -17,7 +17,7 @@ This document defines the player character (pilot), their attributes, progressio
 ## Pilot Backgrounds
 
 ### Starting Background Options
-All pilots begin the game with the same **tutorial scenario** — stranded with a broken ship in a sub-system. Background choice gives a **+2 bonus** to the specialty skill. All backgrounds are competent pilots — there is no dedicated Piloting background.
+All pilots begin the game with the same **tutorial scenario** — stranded with a broken ship in a Minor system within Q01-R0101. Background choice gives a **+2 bonus** to the specialty skill. All backgrounds are competent pilots — there is no dedicated Piloting background.
 
 | Background | Starting Bonus | Skill Boost (+2) | Lore |
 |------------|---------------|-------------------|------|
@@ -122,14 +122,14 @@ All backgrounds share the same tutorial: the delivery run that went wrong.
 ## Pirate Factions
 
 ### 4 Pirate Factions
-Each pirate faction controls a **quadrant of the galaxy**, with influence strongest near their hub and at the galaxy's edges. The center (near region 00) is the safest zone where all four factions are weakest.
+Each pirate faction controls a **quadrant of the galaxy**, with influence strongest at the edges and weakest near center. The 4 regions at R0101 (near origin) are **Space Force safe zones** where all factions are absent. Faction influence blends within 2 regions of quadrant borders.
 
 | Faction | Specialty | Quadrant | Style |
 |---------|-----------|----------|-------|
-| **The Void Reavers** | Raiding and combat | Quadrant 1 (spinward) | Aggressive fleet attacks, ship destruction, demand tribute. Military rejects and war criminals. Strongest naval force of the four. |
-| **The Silk Hand** | Smuggling and contraband | Quadrant 2 (coreward) | Subtle, trade-focused. Most profitable contraband networks. Prefer bribery over violence. Well-connected informants everywhere. |
-| **The Rust Collective** | Salvage and territory control | Quadrant 3 (rimward) | Scavengers who strip dead systems and claim territory. Hoard resources and tech. Build improvised stations from wreckage. Most likely to occupy hostile systems. |
-| **The Phantom Circuit** | Black market trading and intel | Quadrant 4 (trailing) | Information brokers and tech dealers. Run the best black markets. Sell system addresses, blueprints, and stolen data. Least violent but most manipulative. |
+| **The Silk Hand** | Smuggling and contraband | Q01 (top-left) | Subtle, trade-focused. Most profitable contraband networks. Prefer bribery over violence. Well-connected informants everywhere. **Easiest faction.** |
+| **The Phantom Circuit** | Black market trading and intel | Q02 (top-right) | Information brokers and tech dealers. Run the best black markets. Sell system addresses, blueprints, and stolen data. Least violent but most manipulative. |
+| **The Rust Collective** | Salvage and territory control | Q03 (bottom-left) | Scavengers who strip dead systems and claim territory. Hoard resources and tech. Build improvised stations from wreckage. Most likely to occupy hostile systems. |
+| **The Void Reavers** | Raiding and combat | Q04 (bottom-right) | Aggressive fleet attacks, ship destruction, demand tribute. Military rejects and war criminals. Strongest naval force of the four. **Hardest faction.** |
 
 ### Pirate Fame (Per Faction)
 - Tracked **separately** from legitimate faction reputation
@@ -157,11 +157,11 @@ Each pirate faction controls a **quadrant of the galaxy**, with influence strong
 ## Death and Respawn
 
 ### What Happens When the Pilot Dies
-1. Player respawns at the **last visited hub**
+1. Player respawns at the **last visited Friendly Major or Moderate system**
 2. Receives a **temporary loaner Shuttle** (despawns when no longer needed)
 3. Original ship and remaining cargo (minus 0-50% looted) stay at death location
-4. Player can travel to recover ship (automatic swap, ship is damaged, restricted to current region)
-5. Player can buy a new ship at the hub if they have credits
+4. Player can travel to recover ship (automatic swap, ship is damaged)
+5. Player can buy a new ship at any system with a Shipyard discovery if they have credits
 6. **No permanent stat or skill loss** — death is a setback, not a reset
 7. Player is always able to recover
 
@@ -170,7 +170,7 @@ Each pirate faction controls a **quadrant of the galaxy**, with influence strong
 ## Pilot Log / Journal
 
 ### Tracked Information
-- All visited systems (with XX-XXXX addresses)
+- All visited systems (with Q-R addresses)
 - Discovery progress per system (X / Y locations)
 - Known system addresses (from exploration, bulletin boards, NPCs, star charts, missions)
 - Active and completed missions / quest history
@@ -206,6 +206,6 @@ _Add design notes, open questions, and decisions here._
 - Flat incremental bonus values per skill per level
 - Fame point allocation options (what can fame points be spent on specifically?)
 - Legitimate faction names, territories, and relationship matrix
-- Pirate faction hub locations and influence radius per quadrant
+- Pirate faction hub locations and influence radius per quadrant (Q01=Silk Hand, Q02=Phantom Circuit, Q03=Rust Collective, Q04=Void Reavers)
 - Portrait art style and number of options
 - Bartering mechanic details (how does negotiation skill affect shop interactions?)

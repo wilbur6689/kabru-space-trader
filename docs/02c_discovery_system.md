@@ -6,12 +6,14 @@ Discovery is a core gameplay mechanic where players search systems to reveal hid
 ---
 
 ## Discoverable Location Counts
-| System Type | Hidden Locations | Notes |
-|-------------|-----------------|-------|
-| Hub System | 1-3 | Core services already known; hidden locations are bonus extras |
-| Friendly Sub-System | 2-4 | Basic services known; hidden locations are additional finds |
-| Dead System | 3-6 | Nothing known; everything must be searched |
-| Hostile System | 2-5 | Nothing known until explored or cleared |
+Discovery count is determined by **population tier**, not system type. Every system has a minimum of 3 service discoveries.
+
+| Population Tier | Total Discoveries | Min Services | Remaining (loot/encounters) |
+|----------------|------------------|-------------|---------------------------|
+| Major | 12-18 | 3+ (typically 6-10) | 6-12 |
+| Moderate | 7-11 | 3+ (typically 4-6) | 3-7 |
+| Minor | 3-6 | 3 | 0-3 |
+| Measly | 3 | 3 | 0 |
 
 ---
 
@@ -35,12 +37,14 @@ Discovery is a core gameplay mechanic where players search systems to reveal hid
 - Discovery is a core risk/reward mechanic
 - Better equipment (scanners) may influence discovery outcomes
 
-### Discovery Risk by System Type
-| System Type | Danger Chance | Notes |
-|-------------|---------------|-------|
+### Discovery Risk by Alignment
+| Alignment | Danger Chance | Notes |
+|-----------|---------------|-------|
 | Friendly | Low | Mostly safe, occasional surprises |
+| Neutral | Low-Medium | No active threats, minor hazards |
+| Hostile | Medium-High | Environmental dangers, wildlife |
+| Pirate-Controlled | High | Combat encounters likely |
 | Dead | Medium | No active threats but environmental hazards |
-| Hostile | High | Controlled by enemies, combat likely |
 
 ---
 
@@ -66,34 +70,38 @@ When a player searches a system, they may discover threats instead of beneficial
 
 ---
 
-## Discovery Content by System Type
+## Discovery Content by Alignment
 
-### Hub Hidden Discoveries
-- Secret contacts (unlock special missions or black market access)
-- Black market entrances (hidden economy)
-- Side quest triggers (NPC interactions)
+Any system can have any discovery type. Alignment **weights** which types are more likely.
 
-### Friendly Sub-System Discoveries
-- Additional merchants / specialized traders
-- Resource deposits
-- Black markets
-- Quest givers / NPCs
-- Hidden caches
+### Friendly Systems
+- Merchants, upgrade shops, shipyards, mission boards, NPC quest givers
+- Resource deposits, hidden caches
+- Occasional black market contacts (rare)
 
-### Dead System Discoveries
-- Salvage wreckage
-- Ancient ruins / artifacts
+### Neutral Systems
+- Basic merchants, repair, refueling
+- Resource deposits, hidden caches
+- Independent traders, smuggler contacts
+
+### Hostile Systems
+- Environmental hazards (wildlife, contamination, unstable structures)
 - Resource deposits (uncontested but dangerous)
-- Derelict ships
-- Hidden caches from previous inhabitants
-- Ghost towns with abandoned supplies
+- Ancient ruins, salvage
+- Rescue targets (stranded NPCs)
 
-### Hostile System Discoveries
-- Enemy outposts (combat risk — required for system clearing)
+### Pirate-Controlled Systems
+- Enemy outposts (combat — required for system clearing)
 - Imprisoned merchants (rescue for loyalty/discounts)
-- Stolen cargo (high value loot)
-- Black markets (better prices but more dangerous)
+- Stolen cargo, black markets
 - Intel / data caches (reveal info about other systems)
+
+### Dead Systems
+- Salvage wreckage, ghost towns
+- Ancient ruins / artifacts
+- Derelict ships (tow opportunity)
+- Hidden caches from previous inhabitants
+- Environmental hazards (contamination, structural collapse)
 
 ---
 
@@ -109,6 +117,6 @@ When a player searches a system, they may discover threats instead of beneficial
 ## Open Design Questions
 - Exact scanner tier influence on discovery outcomes
 - Discovery content weighting tables per system type and danger level
-- How discovery quality scales with region distance
+- How discovery quality scales with Manhattan distance from origin
 - Whether players can get hints about remaining undiscovered locations
 - How derelict ship discoveries connect to the ship towing mechanic
