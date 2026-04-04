@@ -34,9 +34,18 @@ The fundamental principles that guide every design decision:
 |----------|-------------|--------|
 | [Core Game Loop](01_core_game_loop.md) | Turn-based loop, searching, discovery, navigation | Draft |
 | [Planets & Systems](02_planets.md) | System types, quadrant-region grid, Q-R addresses, discovery | Draft |
+| [Galaxy Structure](02a_galaxy_structure.md) | Quadrant grid layout, regions, Q-R address system, starting region | Draft |
+| [System Types](02b_system_types.md) | Population tiers, alignment types, discovery counts | Draft |
+| [Discovery System](02c_discovery_system.md) | Search mechanic, discovery types, persistent database | Draft |
+| [Player Stations](02d_player_stations.md) | Station construction, tiers, storage, raids, respawn | Draft |
 | [Ship](03_ship.md) | Ship classes, jump drive, upgrades, cargo, death/recovery | Draft |
 | [Pilot](04_pilot.md) | Stats, skills, backgrounds, reputation, journal | Draft |
 | [Challenges](05_challenges.md) | Discovery dangers, travel encounters, combat, missions | Draft |
+| [Combat System](05a_combat_system.md) | Turn-based combat, fame checks, MasterEntity system | Draft |
+| [Enemies & Factions](05b_enemies_and_factions.md) | Pirate factions, enemy types, fame scaling, loot | Draft |
+| [Pirate System Clearing](05c_hostile_systems.md) | Outpost clearing, Warlord bosses, system liberation | Draft |
+| [Missions](05d_missions.md) | Mission types, rewards, reputation, fame-gated slots | Draft |
+| [Events & Hazards](05e_events_and_hazards.md) | Travel encounters, environmental hazards, system events | Draft |
 | [Technical Design](06_technical.md) | Godot architecture, autoloads, scenes, procedural gen | Draft |
 | [Economy & Trading](07_economy_and_trading.md) | Stock market pricing, trade goods, routes, black market | Draft |
 | [Story & Narrative](08_story_and_narrative.md) | Tutorial, story arcs, factions, NPCs, lore | Draft |
@@ -44,6 +53,8 @@ The fundamental principles that guide every design decision:
 | [UI & Presentation](10_ui_and_presentation.md) | System overview, star map, address input, HUD, journal | Draft |
 | [Audio & Atmosphere](11_audio_and_atmosphere.md) | Music per system type, SFX, visual atmosphere | Draft |
 | [Game Balancing](12_balancing.md) | Jump drive tiers, economy tuning, difficulty scaling | Draft |
+| [Deferred Design](13_deferred_design.md) | Deferred decisions, algorithms, and mechanics for later | Draft |
+| [Galaxy ASCII Map](galaxy_ascii_map.md) | Visual reference for quadrant grid layout | Reference |
 
 ---
 
@@ -92,12 +103,13 @@ The core loop that drives most gameplay sessions:
 
 ### Exploration Loop — Search and Discover
 Driven by curiosity and the discovery mechanic:
-1. Arrive at an unvisited system — check alignment and tier
-2. Scanner previews what the next search might reveal (category + risk level)
-3. Search (costs 1 turn) — discover a service, loot, or encounter
-4. Resolve the discovery — trade at a merchant, loot a cache, fight a threat, rescue an NPC
-5. Decide: search again (risk more turns for more discoveries) or move on
-6. Discoveries are permanent — building a personal map of valuable locations across the galaxy
+1. Arrive at an unvisited system — check alignment and tier for discovery count and visibility
+2. Friendly/Neutral systems reveal 3 known services on arrival; Hostile/Pirate/Dead reveal nothing
+3. Scanner previews what the next search might reveal (category + risk level, influenced by scanner tier)
+4. Search (costs 1 turn) — discover a service, loot, or encounter; hostile discoveries may block related finds
+5. Resolve the discovery — trade at a merchant, loot a cache, fight a threat, rescue an NPC
+6. Decide: search again (risk more turns for more discoveries) or move on
+7. Discoveries are permanent — building a personal map of valuable locations across the galaxy
 
 ### Combat Loop — Fight or Flee
 Triggered by dangerous discoveries, travel pass-thru events, or pirate territory:
@@ -177,8 +189,17 @@ _Record major design decisions here as they are made._
 | Discovery | Progressive, persistent DB | Each search matters, revisits show progress | 2026-03-31 |
 | Economy | Stock market model | Dynamic prices create trading opportunities | 2026-03-31 |
 | Death | Respawn at last Friendly Major/Moderate | Setback not ending, always recoverable | 2026-03-31 |
-| Galaxy Structure | 4 quadrants, grid-based regions | Natural progression, pirate factions per quadrant | 2026-04-03 |
+| Galaxy Structure | 4 quadrants, 12x12 grid regions (10x10 usable) | Natural progression, pirate factions per quadrant, dead space border | 2026-04-03 |
 | System Types | Tier (Major→Measly) + Alignment (5 types) | Any combo possible, weighted by distance | 2026-04-03 |
+| Danger Scaling | Manhattan distance from origin (0,0) | 4 danger zones: Safe 1-3, Low-Med 4-6, Med-High 7-9, Extreme 10+ | 2026-04-03 |
+| Pirate Factions | 4 factions, one per quadrant (Q01 easiest → Q04 hardest) | Silk Hand, Phantom Circuit, Rust Collective, Void Reavers | 2026-04-03 |
+| Faction Borders | Blending within 2 regions of quadrant borders | Creates turf war zones with 75/25 → 50/50 → 25/75 ratios | 2026-04-03 |
+| Regional Economy | Unique weighted specialty list per region | Top 25% become dominant industries, drives trade routes | 2026-04-03 |
+| Discovery Visibility | Alignment determines known vs. hidden on arrival | Friendly/Neutral reveal 3 services; Hostile/Pirate reveal nothing | 2026-04-03 |
+| Scanner Influence | Scanner tier affects discovery quality weighting | Better scanners find better locations vs. dangers | 2026-04-03 |
+| Save System | Hybrid procedural — seed for unvisited, full save for visited | Keeps save files small while preserving exact state of visited systems | 2026-04-03 |
+| Save-Scumming | Explicitly allowed — manual saves never overwritten on death | Casual-friendly design, player controls difficulty | 2026-04-03 |
+| Population Density | 200 populated systems per region (20% of 1,000 addresses) | Enough variety without overwhelming, rewards exploration | 2026-04-03 |
 | Story Pacing | Player-triggered only | No timers, player controls the pace | 2026-03-31 |
 
 ---
@@ -227,9 +248,18 @@ _Major unresolved design questions that need answers._
 
 1. Main story arc content (Acts 1-3)
 2. Legitimate faction names, territories, and relationships
-3. Procedural generation algorithm for Q-R address mapping
+3. Procedural generation algorithms (address population, system naming, jump path routing)
 4. Visual theme assignment for systems (space station vs. planet vs. nebula)
-5. Regional trade good specialty generation algorithm
+5. Combat damage formulas and balancing
+6. Cockpit UI zone-to-function mapping
+7. Dead system lore — connected backstory or independent events?
+
+### Recently Resolved
+- ~~Currency name~~ → **Shards**
+- ~~Pirate faction names~~ → Silk Hand (Q01), Phantom Circuit (Q02), Rust Collective (Q03), Void Reavers (Q04)
+- ~~Galaxy structure~~ → 4 quadrants, 12x12 grid regions, Manhattan distance danger scaling
+- ~~Discovery visibility rules~~ → Alignment-based (Friendly/Neutral reveal 3; others reveal nothing)
+- ~~Regional economy specialties~~ → Unique weighted specialty list per region, top 25% dominant
 
 ---
 
