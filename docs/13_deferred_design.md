@@ -129,6 +129,16 @@ This document tracks complex design decisions, algorithms, and mechanics that ha
 
 ---
 
+## Player Stations
+
+### Expanded Crafting System at Tier 3 Stations
+- **Source:** 02d_player_stations.md
+- **Problem:** What additional crafting recipes and capabilities should Tier 3 stations support beyond blueprint crafting?
+- **Context:** Tier 3 stations currently offer blueprint crafting (blueprints + raw materials = unique upgrades). The system is intentionally designed to be expanded with more crafting options over time.
+- **Needs:** Additional crafting recipes, material requirements, what unique items/upgrades can be produced, whether crafting unlocks are progression-gated.
+
+---
+
 ## Ships
 
 ### Blueprint Crafting at Personal Stations
