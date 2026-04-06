@@ -13,7 +13,7 @@ Missions provide structured objectives with rewards, reputation effects, and sto
 | Bounty | Hunt a target in a hostile system | Combat | Credits, reputation | Hub mission board |
 | Rescue | Free imprisoned merchant/NPC | Combat, hostile system | Reputation, loyalty discounts | Discovery or NPC tip |
 | Exploration | Chart unknown system addresses | Unknown dangers | Discovery XP, reputation | Information broker |
-| Clearance | Eliminate hostile faction from a system | Heavy combat | System conversion, major reputation | Story or hub mission |
+| Clearance | Eliminate hostile faction from a system (uses progressive clearing mechanic from [05c](05c_hostile_systems.md)) | Heavy combat | System conversion, major reputation | Story or hub mission |
 | Investigation | Gather intel from data caches | Hostile territory | Lore, system addresses, story progression | Story events |
 
 ---
@@ -33,8 +33,9 @@ Missions provide structured objectives with rewards, reputation effects, and sto
 - Types: Smuggling, Bounty (target is a legitimate faction member), Delivery (contraband)
 
 ### Neutral Missions
-- Found on bulletin boards with no faction affiliation
+- Found on bulletin boards with no faction affiliation — easy to find, widely available
 - Pure credit reward, no reputation effects
+- Medium difficulty — good for targeted resource gathering (blueprint materials, side objectives)
 - Types: Delivery, Exploration, Rescue
 
 ---
@@ -54,7 +55,11 @@ Missions provide structured objectives with rewards, reputation effects, and sto
 ## Mission Deadlines
 - **Some missions have turn limits** — delivery and rescue missions may expire
 - **Other missions are open-ended** — bounty, exploration, clearance have no deadline
-- Failing a deadline mission costs **reputation** with the issuing faction
+- **Deadline outcomes:**
+  - **On time:** 100% reward
+  - **1 turn late:** 50% reward, no reputation penalty
+  - **More than 1 turn late:** no reward, reputation loss with issuing faction
+- Deadlines are hard cutoffs — no extensions or negotiation
 - Player can manually **abandon** any mission (minor reputation loss)
 
 ---
@@ -70,7 +75,8 @@ Missions provide structured objectives with rewards, reputation effects, and sto
 
 ## Mission Board Mechanics
 - Systems with a **mission board discovery** offer available missions
-- Mission board refreshes periodically (every N turns or on each visit)
+- Mission board has a **minimum wait time** before refreshing (exact duration TBD)
+- Number of available missions **scales with system population tier** (Major systems offer more, Measly systems offer fewer)
 - Available missions reflect the system's **alignment and regional specialty**:
   - Friendly systems with weapon upgrades: More bounty and clearance missions
   - Friendly systems with merchants: More delivery missions with better credit rewards
@@ -80,13 +86,21 @@ Missions provide structured objectives with rewards, reputation effects, and sto
 
 ---
 
+## Resolved Design Decisions
+- **Reward multipliers:** Random per mission within range — encourages all playstyles equally
+- **Deadline strictness:** Hard cutoff — on time = 100%, 1 turn late = 50%, >1 turn = fail + reputation loss. No extensions.
+- **Mission board refresh:** Minimum wait time before refresh (exact duration TBD)
+- **Missions per board:** Scaled by system population tier
+- **Clearance missions:** Use the progressive clearing mechanic from [05c](05c_hostile_systems.md)
+- **Pirate bounty targets:** No consequences for attacking legitimate faction members on pirate missions
+- **Neutral missions:** Widely available, medium difficulty, good for targeted resource gathering
+
 ## Open Design Questions
 - Mission reward scaling formula (exact region distance x fame calculation)
 - Mission slot progression curve (3 to 10 across 12 fame levels)
-- Mission board refresh rate and generation rules
-- How many missions are available per board per visit
+- Mission board refresh minimum wait time
+- Mission count range per population tier
 - Whether missions can chain into multi-part sequences
-- Mission failure consequences beyond reputation loss
 - Whether completed missions leave any lasting world effects
 - Smuggling mission specifics — route planning, patrol avoidance mechanics
 - Rescue mission specifics — how rescued NPCs become loyal contacts

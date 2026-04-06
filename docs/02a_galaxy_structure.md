@@ -23,9 +23,10 @@ The galaxy is divided into **4 quadrants** around a central origin point (0,0).
 ```
 
 ### Grid Dimensions
-- **12x12 grid per quadrant** (coordinates R0000 to R1111)
+- **12x12 grid per quadrant** (coordinates R0101 to R1212)
 - **10x10 usable core** per quadrant (R0101 to R1010)
-- **2-cell dead space border** around the entire galaxy edge
+- **2-cell dead space border** on outer galaxy edges only (where x > 10 OR y > 10)
+- No dead space between adjacent quadrants — quadrants share live borders at center
 - Total grid: 24x24 across all quadrants
 - Origin (0,0) is used for **logic calculations only** — not accessible in-game
 
@@ -205,8 +206,10 @@ Travel between **regions** is gated by the ship's jump drive range. Each region 
 
 ## Dead Space Border
 
-### Border Regions (Outer 2 Cells)
-- The outermost 2 cells of each quadrant's 12x12 grid are **dead space**
+### Border Regions (Outer Galaxy Edge Only)
+- Dead space exists only where a region's **x > 10 OR y > 10** within its quadrant
+- This places dead space on the **outer galaxy edges only** — not between quadrants
+- Quadrants share a live border at the center; there is no dead space gap between adjacent quadrants
 - Accessible but empty — only dead systems and void
 - Nav computer warns: *"Entering uncharted dead space. No viable systems detected."*
 - No hubs, no friendly systems, no pirate activity

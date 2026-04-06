@@ -12,12 +12,12 @@ This document covers travel encounters, environmental hazards, system events, ec
 - **Intra-region travel**: Moving between systems within a region routes through intermediate systems. Pass-thru events may occur.
 
 ### Intra-Region Pass-Thru Risk (Scaled by Danger Zone)
-| Danger Zone (Manhattan Dist) | Event Chance | Notes |
-|------------------------------|-------------|-------|
-| Safe (1-3) | Low | Near center, civilized space |
-| Low-Medium (4-6) | Moderate | Pirate activity begins |
-| Medium-High (7-9) | High | Deep pirate territory |
-| Extreme (10+) | Very High | Galaxy edges, strongholds |
+| Danger Zone (Manhattan Dist) | Event Chance (per pass-thru system) | Notes |
+|------------------------------|-------------------------------------|-------|
+| Safe (1-3) | 10% | Near center, civilized space |
+| Low-Medium (4-6) | 25% | Pirate activity begins |
+| Medium-High (7-9) | 40% | Deep pirate territory |
+| Extreme (10+) | 60% | Galaxy edges, strongholds |
 
 Pass-thru events are also influenced by **what exists at the intermediate system** (e.g., Pirate Turf War Zone has high pull-in chance, Distress Signal offers a choice to stop).
 
@@ -25,13 +25,13 @@ Pass-thru events are also influenced by **what exists at the intermediate system
 | Event | Risk | Reward | Trigger |
 |-------|------|--------|---------|
 | Pirate Ambush | Ship damage, cargo theft | Loot if victorious | Unknown territory |
-| Distress Signal | Trap or time cost | Reputation, rewards, address discovery | Any route |
+| Distress Signal | 80% genuine / 20% trap | Reputation, rewards, address discovery | Any route |
 | Asteroid Field | Hull damage | Mineral salvage | Unknown territory |
 | Space Storm | Navigation disruption | None (survival) | Unknown territory |
 | Derelict Ship | Trap risk | Salvage, rare goods, tow opportunity | Unknown territory |
 | Patrol Checkpoint | Contraband scan | None (legal) / Fines (contraband) | Known friendly routes |
 | Merchant Convoy | None | Trading opportunity | Known routes |
-| Story Event | Varies | Main story or side quest trigger | New region entry |
+| Story Event | Varies | Main story or side quest trigger | System entry (first visit only, recorded in journal) |
 | Pirate Turf War | Combat crossfire | Loot from both sides | Border regions between pirate factions |
 
 ---
@@ -42,7 +42,7 @@ Pass-thru events are also influenced by **what exists at the intermediate system
 | Hazard | Effect | Mitigation |
 |--------|--------|-----------|
 | Asteroid fields | Hull damage risk | Piloting skill reduces damage |
-| Nebulae | Reduced scanner effectiveness | Higher scanner tier overcomes |
+| Nebulae | Reduced scanner effectiveness (fewer discoveries + worse pre-jump intel) | Higher scanner tier overcomes |
 | Gravity wells | Navigation complications | Engine tier helps navigate |
 | Radiation zones | Component damage | Hull plating reduces exposure |
 
@@ -51,7 +51,7 @@ Pass-thru events are also influenced by **what exists at the intermediate system
 |--------|----------|--------|-----------|
 | Unstable structures | Dead systems | Structural collapse damage | Engineering skill |
 | Contaminated zones | Dead worlds | Hull/component damage | Scanner detects beforehand |
-| Hostile environment | Primitive planets | Combat with wildlife | Combat skill |
+| Hostile environment | Primitive planets | Simplified combat — auto-resolves outcome based on combat skill, displays resolution | Combat skill |
 | Trap mechanisms | Ancient ruins | Various damage types | Exploration skill |
 
 ---
@@ -64,19 +64,18 @@ Pass-thru events are also influenced by **what exists at the intermediate system
 - Faction war events that affect entire clusters
 
 ### Random Events
-- Procedurally assigned to systems by the game engine
+- Procedurally assigned to systems during **world generation** (seeded, not created on the fly)
 - Can include: merchant convoys, pirate raids, resource discoveries, distress calls
-- Events can change system state (friendly -> hostile or vice versa)
-- New events can generate when the player enters a new region
+- Events can change system state (friendly -> hostile or vice versa) — trigger conditions TBD
+- Seeded events become **active** when the player first enters that region
 
 ---
 
 ## Pirate Turf War Events
-- Occur in **border regions** between pirate faction territories
-- Mixed enemy types from both factions
-- Higher danger but opportunity to profit from the chaos
-- May affect regional pirate faction influence
-- Player can choose sides or stay neutral
+See [05b_enemies_and_factions.md](05b_enemies_and_factions.md) — Border Region Encounters for full details. Summary:
+- Occur in **2-region blending zones** between quadrant borders
+- **Passive (common):** Wreckage and debris to salvage from both factions
+- **Active (rare):** Ongoing battle — player can intervene, pick a side, or scavenge
 
 ---
 
@@ -95,7 +94,7 @@ Pass-thru events are also influenced by **what exists at the intermediate system
 - New ship purchases at hub shipyards
 - Contraband fines if caught by patrols
 - Hostile system taxes for doing business
-- Competition from NPC traders affecting supply/demand
+- Procedural supply/demand shifts (flavor: attributed to NPC trader activity, not actually simulated)
 
 ---
 
@@ -124,13 +123,19 @@ Pass-thru events are also influenced by **what exists at the intermediate system
 
 ---
 
+## Resolved Design Decisions
+- **Pass-thru event chances:** 10% (safe) / 25% (low-med) / 40% (med-high) / 60% (extreme) per system
+- **Distress signals:** 80% genuine / 20% trap
+- **Story events:** Trigger on first system visit only, recorded in journal, no repeats
+- **Random events:** Seeded during world generation, become active on first region entry
+- **Turf wars:** Passive (common) + active (rare) — see 05b for details
+- **Wildlife combat:** Auto-resolves based on combat skill, not full combat system
+- **Nebulae:** Reduce both discovery count and pre-jump intel quality
+- **NPC traders:** Not simulated — procedural price changes flavored as NPC activity
+
 ## Open Design Questions
-- Exact encounter probability tables for travel
 - Environmental hazard damage values
 - How skill mitigation reduces hazard effects (percentage? flat reduction?)
-- Travel encounter generation — how many per multi-hop route
-- How turf war events affect faction influence over time
-- Whether economic events are purely procedural or follow patterns
-- Distress signal trap vs. genuine ratio
+- Travel encounter generation — how many pass-thru systems per multi-hop route
 - How system state changes (friendly to hostile) are triggered
 - Event cooldown periods — how often can the same event type fire

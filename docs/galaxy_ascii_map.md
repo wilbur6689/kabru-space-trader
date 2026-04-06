@@ -2,7 +2,8 @@
 
 ## Full Galaxy Grid (Simplified)
 
-Each quadrant is a 12x12 grid. The inner 10x10 is usable space. The outer 2 cells are dead space border.
+Each quadrant is a 12x12 grid. The inner 10x10 (R0101-R1010) is usable space.
+Dead space exists only on the outer galaxy edges (where x > 10 OR y > 10) — NOT between quadrants.
 Origin (0,0) is at center — used for logic only, not in-game. Earth is at Q01-R0101-1000.
 
 ```
@@ -11,31 +12,31 @@ Origin (0,0) is at center — used for logic only, not in-game. Earth is at Q01-
 
   12 11 10 09 08 07 06 05 04 03 02 01 | 01 02 03 04 05 06 07 08 09 10 11 12
   ─────────────────────────────────────┼─────────────────────────────────────
-12│ xx xx .. .. .. .. .. .. .. .. xx xx | xx xx .. .. .. .. .. .. .. .. xx xx │12
-11│ xx .. .. .. .. .. .. .. .. .. .. xx | xx .. .. .. .. .. .. .. .. .. .. xx │11
-10│ .. .. ── ── ── ── ── ── ── ── .. .. | .. .. ── ── ── ── ── ── ── ── .. .. │10
-09│ .. .. │E  E  E  E  E  E  E  E│ .. .. | .. .. │E  E  E  E  E  E  E  E│ .. .. │09
-08│ .. .. │E  ·  ·  ·  ·  ·  ·  H│ .. .. | .. .. │H  ·  ·  ·  ·  ·  ·  E│ .. .. │08
-07│ .. .. │E  ·  ·  ·  ·  ·  ·  M│ .. .. | .. .. │M  ·  ·  ·  ·  ·  ·  E│ .. .. │07
-06│ .. .. │E  ·  ·  ·  ·  ·  ·  M│ .. .. | .. .. │M  ·  ·  ·  ·  ·  ·  E│ .. .. │06
-05│ .. .. │E  ·  ·  ·  ·  ·  ·  L│ .. .. | .. .. │L  ·  ·  ·  ·  ·  ·  E│ .. .. │05
-04│ .. .. │E  ·  ·  ·  ·  ·  ·  L│ .. .. | .. .. │L  ·  ·  ·  ·  ·  ·  E│ .. .. │04
-03│ .. .. │E  ·  ·  ·  ·  ·  S  S│ .. .. | .. .. │S  S  ·  ·  ·  ·  ·  E│ .. .. │03
-02│ .. .. │E  ·  ·  ·  ·  S  S  S│ .. .. | .. .. │S  S  S  ·  ·  ·  ·  E│ .. .. │02
-01│ .. .. │E  ·  ·  ·  S  S  S  @│ .. .. | .. .. │@  S  S  S  ·  ·  ·  E│ .. .. │01
+12│ xx xx .. .. .. .. .. .. .. .. .. .. | .. .. .. .. .. .. .. .. .. .. xx xx │12
+11│ xx .. .. .. .. .. .. .. .. .. .. .. | .. .. .. .. .. .. .. .. .. .. .. xx │11
+10│ ..  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E .. │10
+09│ ..  E  ·  ·  ·  ·  ·  ·  ·  ·  E  E  ·  ·  ·  ·  ·  ·  ·  ·  E  .. │09
+08│ ..  E  ·  ·  ·  ·  ·  ·  ·  H  ·  ·  H  ·  ·  ·  ·  ·  ·  ·  E  .. │08
+07│ ..  E  ·  ·  ·  ·  ·  ·  M  ·  ·  ·  ·  M  ·  ·  ·  ·  ·  ·  E  .. │07
+06│ ..  E  ·  ·  ·  ·  ·  M  ·  ·  ·  ·  ·  ·  M  ·  ·  ·  ·  ·  E  .. │06
+05│ ..  E  ·  ·  ·  ·  L  ·  ·  ·  ·  ·  ·  ·  ·  L  ·  ·  ·  ·  E  .. │05
+04│ ..  E  ·  ·  ·  L  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  L  ·  ·  ·  E  .. │04
+03│ ..  E  ·  ·  S  ·  ·  ·  ·  S  S  S  S  ·  ·  ·  ·  S  ·  ·  E  .. │03
+02│ ..  E  ·  S  ·  ·  ·  ·  S  S  S  S  S  S  ·  ·  ·  ·  S  ·  E  .. │02
+01│ ..  E  S  ·  ·  ·  ·  S  S  S  @  @  S  S  S  ·  ·  ·  ·  S  E  .. │01
   ─────────────────────────────────────┼─────────────────────────────────────
-01│ .. .. │E  ·  ·  ·  S  S  S  @│ .. .. | .. .. │@  S  S  S  ·  ·  ·  E│ .. .. │01
-02│ .. .. │E  ·  ·  ·  ·  S  S  S│ .. .. | .. .. │S  S  S  ·  ·  ·  ·  E│ .. .. │02
-03│ .. .. │E  ·  ·  ·  ·  ·  S  S│ .. .. | .. .. │S  S  ·  ·  ·  ·  ·  E│ .. .. │03
-04│ .. .. │E  ·  ·  ·  ·  ·  ·  L│ .. .. | .. .. │L  ·  ·  ·  ·  ·  ·  E│ .. .. │04
-05│ .. .. │E  ·  ·  ·  ·  ·  ·  L│ .. .. | .. .. │L  ·  ·  ·  ·  ·  ·  E│ .. .. │05
-06│ .. .. │E  ·  ·  ·  ·  ·  ·  M│ .. .. | .. .. │M  ·  ·  ·  ·  ·  ·  E│ .. .. │06
-07│ .. .. │E  ·  ·  ·  ·  ·  ·  M│ .. .. | .. .. │M  ·  ·  ·  ·  ·  ·  E│ .. .. │07
-08│ .. .. │E  ·  ·  ·  ·  ·  ·  H│ .. .. | .. .. │H  ·  ·  ·  ·  ·  ·  E│ .. .. │08
-09│ .. .. │E  E  E  E  E  E  E  E│ .. .. | .. .. │E  E  E  E  E  E  E  E│ .. .. │09
-10│ .. .. ── ── ── ── ── ── ── ── .. .. | .. .. ── ── ── ── ── ── ── ── .. .. │10
-11│ xx .. .. .. .. .. .. .. .. .. .. xx | xx .. .. .. .. .. .. .. .. .. .. xx │11
-12│ xx xx .. .. .. .. .. .. .. .. xx xx | xx xx .. .. .. .. .. .. .. .. xx xx │12
+01│ ..  E  S  ·  ·  ·  ·  S  S  S  @  @  S  S  S  ·  ·  ·  ·  S  E  .. │01
+02│ ..  E  ·  S  ·  ·  ·  ·  S  S  S  S  S  S  ·  ·  ·  ·  S  ·  E  .. │02
+03│ ..  E  ·  ·  S  ·  ·  ·  ·  S  S  S  S  ·  ·  ·  ·  S  ·  ·  E  .. │03
+04│ ..  E  ·  ·  ·  L  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  L  ·  ·  ·  E  .. │04
+05│ ..  E  ·  ·  ·  ·  L  ·  ·  ·  ·  ·  ·  ·  ·  L  ·  ·  ·  ·  E  .. │05
+06│ ..  E  ·  ·  ·  ·  ·  M  ·  ·  ·  ·  ·  ·  M  ·  ·  ·  ·  ·  E  .. │06
+07│ ..  E  ·  ·  ·  ·  ·  ·  M  ·  ·  ·  ·  M  ·  ·  ·  ·  ·  ·  E  .. │07
+08│ ..  E  ·  ·  ·  ·  ·  ·  ·  H  ·  ·  H  ·  ·  ·  ·  ·  ·  ·  E  .. │08
+09│ ..  E  ·  ·  ·  ·  ·  ·  ·  ·  E  E  ·  ·  ·  ·  ·  ·  ·  ·  E  .. │09
+10│ ..  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E  E .. │10
+11│ xx .. .. .. .. .. .. .. .. .. .. .. | .. .. .. .. .. .. .. .. .. .. .. xx │11
+12│ xx xx .. .. .. .. .. .. .. .. .. .. | .. .. .. .. .. .. .. .. .. .. xx xx │12
   ─────────────────────────────────────┼─────────────────────────────────────
 
      Q03 — RUST COLLECTIVE (Med-Hard)                    Q04 — VOID REAVERS (Hardest)
@@ -51,9 +52,9 @@ Origin (0,0) is at center — used for logic only, not in-game. Earth is at Q01-
   H  = High/Extreme danger (distance 10+)
   E  = Extreme — galaxy edge, wild space, pirate strongholds
   ·  = Usable region (danger determined by Manhattan distance from center)
-  .. = Dead space border (outer 2 cells) — accessible but empty
-  xx = Dead space corner — completely barren
-  │──│ = Usable core boundary (10x10 per quadrant)
+  .. = Dead space border — outer galaxy edge only (x > 10 OR y > 10), accessible but empty
+  xx = Dead space corner (both x > 10 AND y > 10) — completely barren
+  Quadrant borders at center are LIVE — no dead space between quadrants
 ```
 
 ---
@@ -243,23 +244,33 @@ Manhattan distance = |x| + |y| from origin (0,0).
 ## Dead Space Border
 
 ```
-  The outermost 2 cells of each quadrant are dead space.
-  Accessible but empty — only Dead + Measly systems and void.
+  Dead space exists only on the OUTER galaxy edges (x > 10 OR y > 10).
+  There is NO dead space between adjacent quadrants — quadrants share live borders.
 
-  ┌──────────────────────────────────────────────┐
-  │ xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx │  <- Dead space (row 12)
-  │ xx ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  · xx│  <- Dead space (row 11)
-  │ ·  ·  ┌─────────────────────────────┐  ·  · │
-  │ ·  ·  │                             │  ·  · │
-  │ ·  ·  │     USABLE CORE (10x10)     │  ·  · │
-  │ ·  ·  │                             │  ·  · │
-  │ ·  ·  │     200 systems per region   │  ·  · │
-  │ ·  ·  │     1,000 valid addresses    │  ·  · │
-  │ ·  ·  │                             │  ·  · │
-  │ ·  ·  └─────────────────────────────┘  ·  · │
-  │ xx ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  · xx│
-  │ xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx │
-  └──────────────────────────────────────────────┘
+  Example: One quadrant (e.g., Q01 — top-left)
+  R01 is nearest to center, R12 is farthest from center.
 
+                     ◄── toward galaxy edge        toward center ──►
+                 12  11  10  09  08  07  06  05  04  03  02  01
+              ┌─────────────────────────────────────────────────────┐
+          12  │ xx  ..  ..  ..  ..  ..  ..  ..  ..  ..  ..  ..     │ ← dead (y>10)
+          11  │ ..  ..  ..  ..  ..  ..  ..  ..  ..  ..  ..  ..     │ ← dead (y>10)
+          10  │ ..  ..  ·   ·   ·   ·   ·   ·   ·   ·   ·   ·    │ ← usable
+          09  │ ..  ..  ·   ·   ·   ·   ·   ·   ·   ·   ·   ·    │
+          08  │ ..  ..  ·   ·   ·   ·   ·   ·   ·   ·   ·   ·    │
+          07  │ ..  ..  ·   ·   ·   ·   ·   ·   ·   ·   ·   ·    │
+          06  │ ..  ..  ·   ·   ·   ·   ·   ·   ·   ·   ·   ·    │
+          05  │ ..  ..  ·   ·   ·   ·   ·   ·   ·   ·   ·   ·    │
+          04  │ ..  ..  ·   ·   ·   ·   ·   ·   ·   ·   ·   ·    │
+          03  │ ..  ..  ·   ·   ·   ·   ·   ·   ·   ·   ·   ·    │
+          02  │ ..  ..  ·   ·   ·   ·   ·   ·   ·   ·   ·   ·    │
+          01  │ ..  ..  ·   ·   ·   ·   ·   ·   ·   ·   ·   @    │ ← R0101 (center)
+              └─────────────────────────────────────────────────────┘
+                 ↑   ↑                                         ↑
+              dead  dead                                    center
+             (x>10) (x>10)                                  (0,0)
+
+  Dead space rule: x > 10 OR y > 10
+  Usable core: R0101 to R1010 (10x10 per quadrant)
   Nav computer: "Entering uncharted dead space. No viable systems detected."
 ```

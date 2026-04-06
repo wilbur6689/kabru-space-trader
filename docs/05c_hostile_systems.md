@@ -16,10 +16,9 @@
    - Mid regions (distance 6-10): 3 outposts
    - Far regions (distance 11-15): 4 outposts
    - Edge regions (distance 16+): 5 outposts
-5. After clearing enough outposts, the **boss appears on the next search/turn**
-6. Boss **warns the player** that an attack is coming in **2-3 turns**
-7. Player has a minimum of **1 turn to leave** and prepare (repair, upgrade, restock)
-8. When the player **returns to the system**, the boss attacks
+5. After clearing enough outposts, **environmental signals warn of an incoming ship** (sensors detect approach, 2-3 turns out)
+6. Player has a window to **leave and prepare** (repair, upgrade, restock)
+7. When the player **returns to the system**, the boss is waiting and **attacks immediately**
 
 ---
 
@@ -31,34 +30,31 @@
 - Uses the same MasterEntity system as all other entities
 
 ### Boss Encounter Flow
-1. Boss warning received after clearing required outposts
-2. Player has 2-3 turns before the boss arrives
-3. Player can leave to prepare (minimum 1 turn window)
-4. On return (or if player stays), boss attacks
-5. Single combat encounter — no fleeing (TBD: or very difficult flee?)
+1. Environmental warning detected after clearing required outposts (sensors pick up incoming ship)
+2. Player has 2-3 turns before the boss arrives if they stay
+3. Player can leave to prepare — but the boss will be waiting when they return and attacks immediately
+5. Single combat encounter — fleeing is possible but **very difficult**
 6. Victory: system is liberated
-7. Defeat: player dies, respawn mechanics apply
+7. Defeat: one of three outcomes chosen at random:
+   - **Death** — respawn mechanics apply (worst case)
+   - **Knocked out** — player wakes up in a nearby system, loses cargo and credits
+   - **Captured** — player must pay a ransom to be released, or attempt an escape event
 
 ### Post-Clear State
-- Defeating the boss **converts the system from hostile to friendly**
-- System reverts to its **pre-occupation state** with basic services
-- Previously hidden locations may become known/accessible
+- Defeating the boss **converts the system from Pirate-Controlled to Friendly**
+- System reverts to its **original generated state** — all systems are generated as Friendly first during world creation, then transformation rules apply pirate/hostile/dead modifiers. Clearing a system restores the original Friendly version.
+- Previously hidden locations become accessible
 - May open new trade routes and shift regional prices
-- May stabilize neighboring friendly systems
-
----
-
-## Boss Rebuilds
-- If the player **does not return for too long**, the faction begins **rebuilding outposts**
-- Player must re-clear some outposts before the boss is triggered again
-- Prevents indefinite delay — creates urgency without a hard timer
+- **Stabilizes neighboring systems** — reduces random pirate/hostile encounter frequency in adjacent friendly systems
 
 ---
 
 ## Pirate-Controlled System Properties
 
 ### While Pirate-Controlled
-- Nothing known on arrival — everything hidden until explored
+- System details are hidden until explored — everything must be discovered
+- Player can **gather intel from NPCs in surrounding systems** before entering (faction, rough danger level, hints)
+- Without asking, player only knows general regional info (e.g., "Void Reavers control this region")
 - **Tax charged** before the player can conduct business (15% minus 1% per fame level)
 - Higher risk but higher reward than Friendly systems
 - Pirate faction enemies patrol the system
@@ -74,13 +70,17 @@
 
 ---
 
+## Resolved Design Decisions
+- **Fleeing boss fights:** Possible but very difficult
+- **Boss defeat outcomes:** Random — death, knocked out (lose cargo/credits, wake up nearby), or captured (ransom/escape event)
+- **Outpost rebuilds:** None — once outposts are cleared, they stay cleared. Boss waits indefinitely.
+- **Cleared systems:** Stay friendly permanently, never revert to pirate-controlled
+- **Stabilization effect:** Clearing a system reduces pirate encounter frequency in neighboring friendly systems
+- **World generation order:** All systems generated as Friendly first, then transformation rules apply pirate/hostile/dead modifiers. Clearing restores original state.
+- **Warning signal:** Environmental — sensors detect incoming ship, not direct comms from boss
+
 ## Open Design Questions
 - Boss encounter combat design — phases, special abilities, unique mechanics
-- Whether the player can flee from a boss fight
-- Outpost rebuild rate when player delays the boss fight
-- How long before rebuilding starts after outpost clearing
-- Whether cleared hostile systems can become hostile again over time
 - Specific rewards for clearing a hostile system beyond system conversion
-- How hostile system clearing affects pirate faction influence in the region
 - Whether the boss has unique loot drops
-- How the "2-3 turn warning" is communicated to the player (visual, audio, text)
+- World generation transformation rules — what determines which systems become pirate-controlled, hostile, dead, etc.
