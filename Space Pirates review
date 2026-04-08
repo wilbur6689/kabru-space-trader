@@ -1,0 +1,150 @@
+                                                                                                                                     
+Pirate Faction Review                                                                                                              
+                                                                                                                                     
+  The four pirate factions are the central antagonist set in Ace Trader. Each owns one quadrant of the galaxy, has a distinct combat
+  identity hard-coded in stat modifiers, and creates a clear difficulty curve as the player explores outward.                           
+  Quick Comparison                                                                                                                   
+
+  ┌────────────────┬────────────────────────┬───────────────────────────────┬──────────────────────────┬───────────────────────┐
+  │                │       Silk Hand        │        Phantom Circuit        │     Rust Collective      │     Void Reavers      │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Quadrant       │ Q01                    │ Q02                           │ Q03                      │ Q04                   │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Difficulty     │ Easiest                │ Easy–Medium                   │ Medium–Hard              │ Hardest               │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Identity       │ Cunning bribers        │ Evasive ghosts                │ Tanky scrappers          │ Brutal nihilists      │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Hull mod       │ ×0.85                  │ ×0.90                         │ ×1.30                    │ ×1.10                 │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Shields mod    │ ×0.85                  │ ×1.00                         │ ×1.20                    │ ×0.90                 │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Damage mod     │ ×0.80                  │ ×0.95                         │ ×1.00                    │ ×1.30                 │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Accuracy mod   │ ×1.05                  │ ×1.20                         │ ×0.85                    │ ×1.05                 │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Flee chance    │ ×1.10                  │ ×1.30                         │ ×0.0                     │ ×0.0                  │     
+  │ mod            │                        │                               │                          │                       │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Negotiation    │ 0.7                    │ 1.0                           │ 1.4                      │ 99.0                  │     
+  │ resist         │                        │                               │                          │                       │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Can negotiate  │ yes                    │ yes                           │ yes                      │ no                    │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Can intimidate │ yes                    │ yes                           │ no                       │ no                    │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Loot focus     │ Contraband, trade      │ Intel, addresses, blueprints  │ Salvage, ship parts,     │ Weapons, raw shards   │     
+  │                │ goods, shards          │                               │ resources                │                       │     
+  ├────────────────┼────────────────────────┼───────────────────────────────┼──────────────────────────┼───────────────────────┤     
+  │ Ship loadout   │ Fast engines, escape   │ Stealth, evasion, scanner     │ Heavy hull,              │ Heavy weapons,        │     
+  │ bias           │ gear, cargo            │ countermeasures               │ tractor/disable mods     │ offensive modules     │     
+  └────────────────┴────────────────────────┴───────────────────────────────┴──────────────────────────┴───────────────────────┘     
+
+  ---
+  Silk Hand — Q01 (Easiest)
+
+  Personality: The most "human" of the four — they're criminals running a business. They'd rather take your money than your life.    
+  Bribery is the signature gimmick: they're the only faction in the entire game that can actually be bribed, including patrol ships  
+  (which can't be bribed at all).
+
+  Combat shape: Significantly weaker stats across the board (×0.85 hull/shields, ×0.80 damage). Slightly more accurate than baseline.
+   The lowest negotiation resistance in the game (0.7) means even modest negotiation skill talks them out of fights. They flee 10%   
+  more often than baseline.
+
+  Why they work as the starter faction: Q01 contains the player's spawn region (Q01-R0101) and the tutorial. New players who haven't 
+  built combat skill yet can survive almost any Silk Hand encounter by paying their way out. The faction teaches the player that     
+  combat isn't always required — a critical lesson before they wander into Q03 or Q04.
+
+  Generator content angle: Sophisticated criminals with personality. Names should feel like aliases and noms de guerre. Hideouts are 
+  dens, parlors, gambling houses — not fortresses. Black market contacts are smooth talkers, not thugs. Lore should lean into "we're 
+  businessmen, not animals." Their warlord should be cunning rather than physically imposing.
+
+  ---
+  Phantom Circuit — Q02 (Easy–Medium)
+
+  Personality: Tech-focused ghosts. They'd rather not fight at all — they trade information to escape. Their gimmick is intel as     
+  currency: defeating one (or talking your way past one) yields system addresses, blueprints, and rumors that other factions don't   
+  drop.
+
+  Combat shape: Roughly average stats but two extreme outliers: ×1.20 accuracy (the highest in the game) and ×1.30 flee chance (the  
+  highest as well). They hit hard when they shoot, but they prefer to disengage. Negotiation resist is baseline 1.0 — they'll talk,  
+  but they aren't pushovers like Silk Hand.
+
+  Why they work as a step-up: Phantom Circuit teaches the player about evasion as a threat model. You can't easily intimidate them   
+  into staying for a fight — they ghost. But you also can't bribe them as cheaply as Silk Hand. The player has to start thinking     
+  about positioning and what they actually want from an encounter (loot? intel? clear the system?).
+
+  Generator content angle: Cyber-mystic, hacker-collective vibe. Names that feel like callsigns and handles ("The Cipher," "Nexus"). 
+  Hideouts are listening posts, signal arrays, decommissioned observatories. Black market contacts deal in data, blueprints, and     
+  cartography. Their warlord should feel like a mastermind in the shadows — never directly seen until the boss fight.
+
+  ---
+  Rust Collective — Q03 (Medium–Hard)
+
+  Personality: Industrial scavengers — they want your ship more than your life. Their gimmick is part stripping: a successful Rust   
+  Collective attack can permanently remove installed components from the player's ship. Mechanically this represents boarding without
+   needing a boarding sub-system. (See 05b_enemies_and_factions.md line 61.)
+
+  Combat shape: The tank of the four — ×1.30 hull and ×1.20 shields, the highest of any faction. They trade accuracy (×0.85) for     
+  staying power. Flee chance is zero — they will not retreat. Negotiation resist is 1.4 (high), and they cannot be intimidated. They 
+  can be negotiated with, but it's hard, and what they want is your cargo or your parts — so the negotiation outcome is itself       
+  painful.
+
+  Why they're the difficulty wall: Rust Collective is the first faction the player can't easily out-talk or out-run. Bribery doesn't 
+  work cheap, intimidation is off the table, fleeing them just delays the fight. The player has to actually be combat-ready before   
+  pushing into Q03. This is also the first faction whose defeat conditions threaten persistent harm — losing a tier-3 component is a 
+  real setback even if you survive.
+
+  Generator content angle: Heavy-industrial, junkyard-warlord aesthetic. Names that feel mechanical, brutalist ("Iron-Marshal Drog," 
+  "Foreman of the Pit"). Hideouts are scrapyards, derelict refineries, dismembered station hulks. Black market contacts trade in ship
+   parts and salvage. Their warlord should feel like the king of a metal mountain — physically imposing, slow, immovable.
+
+  ---
+  Void Reavers — Q04 (Hardest)
+
+  Personality: Nihilistic killers. They don't want your money, your ship, or your information — they want to end you. Negotiation    
+  resist 99.0 is not a typo: it's effectively infinite, and can_negotiate: false and can_intimidate: false confirm there is no social
+   way out of a Void Reavers encounter. You fight or you die.
+
+  Combat shape: ×1.30 damage — the highest in the game — combined with above-average hull (×1.10) and accuracy (×1.05). Slightly     
+  weaker shields (×0.90) is their only soft spot. Zero flee chance. Every fight is to the death.
+
+  Why they're the endgame: By the time the player has the jump-drive tier and combat skill to survive Q04, they should be near peak  
+  progression. Void Reavers are a pure DPS race — kill them before they kill you, with no off-ramps. Their warlord is the hardest    
+  fight in the game.
+
+  Generator content angle: Cult of personality, death-worship, blood-and-void aesthetic. Names that feel ritualistic and titled      
+  ("Captain Vex the Merciless," "Bloodfist of the Void"). Hideouts are charnel houses, voidshrines, broken cathedral-stations. Black 
+  market contacts barely qualify as contacts — they're more like wardens deciding whether to let you live. Their warlord should have 
+  a title and a creed, not just a name. Lore should hint at why they exist at all — what broke them, why they kill — and leave most  
+  of it unanswered.
+
+  ---
+  Cross-Faction Mechanics Worth Knowing
+
+  These shape what good content variants look like:
+
+  - Border blending (within 2 regions of a quadrant border): 75/25 → 50/50 → 25/75 mix between adjacent factions. This means a region
+   near the Q01/Q02 border has both Silk Hand and Phantom Circuit content. Generator shouldn't write variants assuming a faction is  
+  alone in its region.
+  - Turf war encounters in border regions can be passive (loot from a recent battle, both factions' goods recoverable) or active (an 
+  ongoing fight you can intervene in). Loot variants tied to border regions can lean into this.
+  - Fame scaling (enemy_fame = base_fame + floor(distance / 2.5), capped at 10) means the same faction gets stronger as you move     
+  outward. A Silk Hand encounter at distance 2 is fame 1; the same encounter at distance 16 is fame 7. So the faction identity stays 
+  constant, but variants should still cover the full distance range — generator should produce easy and hard variants for every      
+  faction.
+  - Loot identity is real. The loot_table for a faction's encounters should reflect their loot focus. Silk Hand drops contraband and 
+  shards; Phantom Circuit drops cartography data and blueprints; Rust Collective drops ship components and salvage; Void Reavers     
+  drops weapons and raw shards. The generator should reject Void Reavers variants whose loot tables are full of intel or blueprints. 
+
+  ---
+  Design Quality Notes
+
+  What works well: The four factions form a clean removal-of-options curve. Silk Hand: every option works (fight, bribe, intimidate, 
+  flee). Phantom Circuit: bribery weaker, they flee on you. Rust Collective: intimidation gone, fleeing pointless, negotiation       
+  costly. Void Reavers: nothing but combat. Each step up the difficulty ladder is a step down the option ladder. That's elegant.     
+
+  What's underexplored: The factions all have strong combat identities but their narrative identities are still thin in the docs. The
+   generator is the right place to fix this — it's literally the tool for producing lore at scale. The faction-flavor guidance in §8 
+  of discovery_generator.md already nudges this direction, but the doc could go further with a per-faction "voice and tone" guide for
+   content writers (and for Claude). Want me to add that as a new section to the discovery_generator.md doc? It would slot naturally 
+  into §3 (Reference Data → Factions) as an expanded subsection.
